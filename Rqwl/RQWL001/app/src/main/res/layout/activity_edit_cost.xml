@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_alignParentTop="true"
+    android:gravity="center|top"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/buttonInOut"
+        android:layout_width="99dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|left"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginRight="40dp"
+        android:background="@drawable/bg_rectangle"
+        android:onClick="InOut"
+        android:text="收礼"
+        android:textSize="18sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
+
+        <EditText
+            android:id="@+id/editTextTextPersonName"
+            android:layout_width="56dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:ems="10"
+            android:enabled="false"
+            android:inputType="none"
+            android:text="姓名 "
+            android:textColor="@android:color/black" />
+
+        <AutoCompleteTextView
+            android:id="@+id/et_cost_title"
+            android:layout_width="360dp"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/editTextTextPersonName"
+            android:completionThreshold="0"
+            android:hint="姓名" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
+
+        <EditText
+            android:id="@+id/editTextTextPersonName"
+            android:layout_width="56dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:ems="10"
+            android:enabled="false"
+            android:inputType="textPersonName"
+            android:text="事由"
+            android:textColor="@android:color/black" />
+
+        <AutoCompleteTextView
+            android:id="@+id/et_cost_remark"
+            android:layout_width="360dp"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/editTextTextPersonName"
+            android:completionThreshold="1" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
+
+        <EditText
+            android:id="@+id/editTextTextPersonName"
+            android:layout_width="56dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:ems="10"
+            android:enabled="false"
+            android:inputType="textPersonName"
+            android:text="礼金"
+            android:textColor="@android:color/black" />
+
+        <EditText
+            android:id="@+id/et_cost_money"
+            android:layout_width="360dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@id/editTextTextPersonName"
+            android:hint="礼金"
+            android:inputType="number|numberDecimal"
+            android:textColor="#ffbd27" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
+
+        <EditText
+            android:id="@+id/editTextTextPersonName"
+            android:layout_width="56dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:ems="10"
+            android:enabled="false"
+            android:inputType="textPersonName"
+            android:text="日期"
+            android:textColor="@android:color/black" />
+
+        <EditText
+            android:id="@+id/dp_cost_date"
+            android:layout_width="360dp"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/editTextTextPersonName"
+            android:enabled="false"
+            android:hint="日期"
+            android:textColor="#ffbd27" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp">
+
+        <Switch
+            android:id="@+id/switch_batch"
+            android:layout_width="120dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:showText="true"
+            android:text="批量修改"
+            android:textOff="关"
+            android:textOn="开"
+            android:textSize="16sp" />
+
+        <Button
+            android:layout_width="141dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="right"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/bg_rectangleok"
+            android:onClick="okButton"
+            android:text="确认"
+            android:textColor="#333333"
+            android:textSize="20dp" />
+    </RelativeLayout>
+
+    <com.nanchen.calendarview.MyCalendarView
+        android:id="@+id/calendarView"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:layout_gravity="top|left"
+        android:layout_marginTop="20dp">
+
+    </com.nanchen.calendarview.MyCalendarView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp">
+
+        <ImageButton
+            android:id="@+id/del"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="0dp"
+            android:background="#00FF0000"
+            android:onClick="delAccount"
+            android:scaleType="fitEnd"
+            android:src="@drawable/btn_delete"
+            android:visibility="visible" />
+
+        <ImageButton
+            android:id="@+id/retFlag3"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_below="@id/calendarView"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginRight="0dp"
+            android:background="#00FF0000"
+            android:onClick="retOnFlag"
+            android:scaleType="centerInside"
+            android:src="@drawable/btn_return"
+            android:visibility="visible" />
+    </RelativeLayout>
+
+</LinearLayout>
