@@ -65,7 +65,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String VersionString = " Version: 2025.03.22 ";
+    private static final String VersionString = " Version: 2025.03.23 ";
     int CurrentIndex = -1;
     int m_total_Num = 0;  //显示总收支差额
     //    int m_appStart_reFlag = 1 ; //app start flag: 1 ;   0:started
@@ -293,7 +293,8 @@ public class MainActivity extends AppCompatActivity {
                 editAccount(view);
             }
 
-            Retflag.setVisibility(View.VISIBLE);  //                Del.setVisibility(View.VISIBLE);
+//            Retflag.setVisibility(View.VISIBLE);  //2025.03.23
+//                Del.setVisibility(View.VISIBLE);
             Expdata.setVisibility(View.VISIBLE);
             if (CurrentName.equals("")) {
                 Expdata.setVisibility(View.VISIBLE);
@@ -457,7 +458,7 @@ public class MainActivity extends AppCompatActivity {
                 m_Tongji_Count++;
             }
         }
-        String charShow = "共" + m_Tongji_Count + "/" + m_record_Count + "笔";
+        String charShow = "" + m_Tongji_Count + "/" + m_record_Count + "笔";
         Men_total.setText(charShow); //显示总条目数量
         if (m_total_Num >= 0) {
             if (m_total_Num == 0) {
@@ -920,7 +921,7 @@ public class MainActivity extends AppCompatActivity {
         initData(CurrentName);               //返回按钮后，重新显示记录
 //        initSortData(sortbyStr);  //按工作模式排序后，显示记录  2024.06.18
         CurrentIndex = -1;
-        Retflag.setVisibility(View.VISIBLE);
+//        Retflag.setVisibility(View.VISIBLE);  //2025.03.23
 //        return;
     }
 

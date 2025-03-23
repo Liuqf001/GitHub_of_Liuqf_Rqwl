@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,11 +11,11 @@
     <Button
         android:id="@+id/buttonInOut"
         android:layout_width="99dp"
-        android:layout_height="45dp"
+        android:layout_height="40dp"
         android:layout_gravity="top|left"
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="40dp"
         android:layout_marginRight="40dp"
         android:background="@drawable/bg_rectangle"
@@ -25,24 +26,16 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="00dp"
         android:layout_alignParentTop="false"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="0dp"
         android:gravity="left"
         android:orientation="vertical">
-
-        <AutoCompleteTextView
-            android:id="@+id/et_cost_remark"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
-            android:completionThreshold="0"
-            android:hint="事由" />
 
     </LinearLayout>
 
     <RelativeLayout
+        android:id="@+id/relativeLayout1"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_gravity="left">
@@ -65,10 +58,12 @@
             android:layout_gravity="right"
             android:hint="礼金"
             android:inputType="number|numberDecimal"
-            android:textColor="#ffbd27" />
+            android:textColor="#ffbd27"
+            android:textSize="18sp" />
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/relativeLayout2"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_gravity="top|left">
@@ -95,6 +90,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/relativeLayout3"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_gravity="top|left">
@@ -121,6 +117,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/relativeLayout4"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_gravity="top|left">
@@ -148,6 +145,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/relativeLayout5"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_gravity="top|left">
@@ -173,47 +171,95 @@
             android:textColor="#ffbd27" />
     </RelativeLayout>
 
-    <Button
-        android:layout_width="141dp"
-        android:layout_height="45dp"
-        android:layout_gravity="right|top"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginRight="5dp"
-        android:background="@drawable/bg_rectangleok"
-        android:onClick="okButton"
-        android:text="确认"
-        android:textColor="#333333"
-        android:textSize="20dp" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/relativeLayout6"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="top|left">
 
-    <com.nanchen.calendarview.MyCalendarView
-        android:id="@+id/calendarView"
+        <AutoCompleteTextView
+            android:id="@+id/et_cost_remark"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="10dp"
+            android:completionThreshold="0"
+            android:hint="事由"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@+id/button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.60" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/relativeLayout61"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_gravity="top|left"
+            app:layout_constraintStart_toEndOf="@id/et_cost_remark"
+            app:layout_constraintWidth_percent="0.40">
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_gravity="right|top"
+                android:background="@drawable/bg_rectangleok"
+                android:onClick="okButton"
+                android:text="确认"
+                android:textColor="#333333"
+                android:textSize="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintWidth_percent="0.30" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/relativeLayout7"
         android:layout_width="match_parent"
         android:layout_height="350dp"
         android:layout_gravity="top|left"
-        android:layout_marginTop="10dp">
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintTop_toBottomOf="@+id/button"
+        tools:layout_constraintBottom_toTopOf="@id/relativeLayout7">
 
-    </com.nanchen.calendarview.MyCalendarView>
+        <com.nanchen.calendarview.MyCalendarView
+            android:id="@+id/calendarView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="top|left"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-    <RelativeLayout
+        </com.nanchen.calendarview.MyCalendarView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/relativeLayout8"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        tools:layout_editor_absoluteY="354dp">
+
 
         <ImageButton
             android:id="@+id/retFlag2"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_below="@id/calendarView"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="10dp"
             android:layout_marginRight="10dp"
             android:background="#00FF0000"
             android:onClick="retOnFlag"
             android:scaleType="centerInside"
             android:src="@drawable/btn_return"
-            android:visibility="visible" />
-    </RelativeLayout>
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>
