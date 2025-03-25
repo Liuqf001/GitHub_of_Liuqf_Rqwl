@@ -665,7 +665,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         filePickerConfig.filter(aFilter) ;
-        filePickerConfig.forResult(8888);
+        filePickerConfig.forResult(8899);
 
         //LFilePicker
 //        LFilePicker lFilePicker = new LFilePicker();
@@ -1220,39 +1220,37 @@ public class MainActivity extends AppCompatActivity {
                     ExportCsv("FinalAccountDel",true);   //增加新的记录数据后，自动导出一次记录 to  FinalAccountAdd
             }
         }
-        if (requestCode == 999) {   // select file  导入指定的备份数据文件
+        if ((resultCode == RESULT_OK)&&(requestCode == 999)) {   // select file  导入指定的备份数据文件
             //            if( data==null ){}  //没有选择数据文件
             if (data != null) {  //选择了数据文件
                 Uri uri = data.getData();
                 String fileNme = getRealFileName(uri);  // get file path string
                 ImportCsv(fileNme);     // 导入指定文件的数据到数据库
-                //                m_total_reFlag = 0;
-                //            int sdkVersion  = Build.VERSION.SDK_INT;  //            String filePath = getRealPathFromUri(uri);  // get file path string
-                //            ShowToast(fileNme);
-                //            int i = 0 ;
             }
         }
-        if (requestCode == 8888) {  // Android filepicker
-            List<String> dataList = FilePickerManager.obtainData();
-            String fileName = dataList.get(0);  // get file path string
-            int indexStart = fileName.lastIndexOf("/");
-            if (indexStart >= 0) indexStart++;
-            fileName = fileName.substring(indexStart);
-            ImportCsv(fileName);     // 导入指定文件的数据到数据库
-        }
-
-        if (resultCode == RESULT_OK) {  // LFilePicker
-            if (requestCode == 9999) {
-                String mRESULT_INFO = "paths";
-                List<String> dataList = data.getStringArrayListExtra(mRESULT_INFO);
-                if (dataList!=null) {  //select one file
-                    String fileName = dataList.get(0);
-                    int indexStart = fileName.lastIndexOf("/");
-                    if (indexStart >= 0) indexStart++;
-                    fileName = fileName.substring(indexStart);
-                    ImportCsv(fileName);     // 导入指定文件的数据到数据库
-                    //                Toast.makeText(getApplicationContext(), "选中了" + dataList.size() + "个文件,"+fileName, Toast.LENGTH_SHORT).show();
+        if (resultCode == RESULT_OK) {
+            if ((requestCode == 8899) || (requestCode == 9988)) {
+                String fileName = "";
+                // Android filepicker
+                if (requestCode == 8899) {
+                    List<String> dataList = FilePickerManager.obtainData();
+                    fileName = dataList.get(0); // get file path string
                 }
+
+                // LFilePicker
+                //                if (requestCode == 9988) {
+                //                    String mRESULT_INFO = "paths";
+                //                    List<String> dataList = data.getStringArrayListExtra(mRESULT_INFO);
+                //                    if (dataList != null) { // select one file
+                //                        fileName = dataList.get(0);
+                //                    }
+                //                }
+
+                int indexStart = fileName.lastIndexOf("/");
+                if (indexStart >= 0) indexStart++;
+                fileName = fileName.substring(indexStart);
+                if (!fileName.equals(""))
+                    ImportCsv(fileName); // 导入指定文件的数据到数据库                   //
             }
         }
 
