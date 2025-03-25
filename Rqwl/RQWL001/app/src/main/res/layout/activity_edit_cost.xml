@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -12,18 +13,18 @@
         android:id="@+id/buttonInOut"
         android:layout_width="99dp"
         android:layout_height="40dp"
-        android:layout_gravity="top|left"
+        android:layout_gravity="top|start"
         android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
         android:background="@drawable/bg_rectangle"
         android:onClick="InOut"
-        android:text="收礼"
-        android:textSize="18sp" />
+        android:text="@string/收礼"
+        android:textSize="18sp"
+        tools:ignore="UsingOnClickInXml" />
 
     <RelativeLayout
+        android:id="@+id/relativeLayout1"
         android:layout_width="match_parent"
         android:layout_height="40dp">
 
@@ -31,25 +32,28 @@
             android:id="@+id/editTextTextPersonName"
             android:layout_width="56dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="10dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="10dp"
             android:ems="10"
             android:enabled="false"
             android:inputType="none"
-            android:text="姓名 "
-            android:textColor="@android:color/black" />
+            android:text="@string/xingming"
+            android:textColor="@android:color/black"
+            android:autofillHints=""
+            tools:ignore="LabelFor" />
 
         <AutoCompleteTextView
             android:id="@+id/et_cost_title"
             android:layout_width="360dp"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/editTextTextPersonName"
+            android:layout_toEndOf="@id/editTextTextPersonName"
             android:completionThreshold="0"
-            android:hint="姓名" />
+            android:hint="@string/xingming" />
 
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/relativeLayout2"
         android:layout_width="match_parent"
         android:layout_height="40dp">
 
@@ -57,24 +61,26 @@
             android:id="@+id/editTextTextTHing"
             android:layout_width="56dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="10dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="10dp"
             android:ems="10"
             android:enabled="false"
             android:inputType="textPersonName"
-            android:text="事由"
-            android:textColor="@android:color/black" />
+            android:text="@string/事由"
+            android:textColor="@android:color/black"
+            android:autofillHints="" />
 
         <AutoCompleteTextView
             android:id="@+id/et_cost_remark"
             android:layout_width="360dp"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/editTextTextTHing"
+            android:layout_toEndOf="@id/editTextTextTHing"
             android:completionThreshold="1" />
 
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/relativeLayout3"
         android:layout_width="match_parent"
         android:layout_height="40dp">
 
@@ -82,27 +88,30 @@
             android:id="@+id/editTextTextCash"
             android:layout_width="56dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="10dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="10dp"
             android:ems="10"
             android:enabled="false"
             android:inputType="textPersonName"
-            android:text="礼金"
-            android:textColor="@android:color/black" />
+            android:text="@string/lijin"
+            android:textColor="@android:color/black"
+            android:autofillHints="" />
 
         <EditText
             android:id="@+id/et_cost_money"
             android:layout_width="360dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_toRightOf="@id/editTextTextCash"
-            android:hint="礼金"
+            android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@id/editTextTextCash"
+            android:hint="@string/lijin"
             android:inputType="number|numberDecimal"
-            android:textColor="#ffbd27" />
+            android:textColor="#ffbd27"
+            android:autofillHints="" />
 
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/relativeLayout4"
         android:layout_width="match_parent"
         android:layout_height="40dp">
 
@@ -110,97 +119,114 @@
             android:id="@+id/editTextTextDate"
             android:layout_width="56dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="10dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="10dp"
+            android:autofillHints=""
             android:ems="10"
             android:enabled="false"
-            android:inputType="textPersonName"
-            android:text="日期"
+            android:inputType="number|date"
+            android:text="@string/日期"
             android:textColor="@android:color/black" />
 
         <EditText
             android:id="@+id/dp_cost_date"
             android:layout_width="360dp"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/editTextTextDate"
+            android:layout_toEndOf="@id/editTextTextDate"
             android:enabled="false"
-            android:hint="日期"
-            android:textColor="#ffbd27" />
+            android:hint="@string/日期"
+            android:textColor="#ffbd27"
+            android:autofillHints=""
+            android:inputType="date" />
 
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/relativeLayout5"
         android:layout_width="match_parent"
-        android:layout_height="60dp">
+        android:layout_height="50dp">
 
         <Switch
             android:id="@+id/switch_batch"
             android:layout_width="120dp"
             android:layout_height="35dp"
             android:layout_marginStart="15dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="0dp"
             android:showText="true"
-            android:text="批量修改"
-            android:textOff="关"
-            android:textOn="开"
-            android:textSize="16sp" />
+            android:text="@string/批量修改"
+            android:textOff="@string/关"
+            android:textOn="@string/开"
+            android:textSize="16sp"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
 
         <Button
             android:layout_width="100dp"
             android:layout_height="40dp"
-            android:layout_alignParentRight="true"
-            android:layout_gravity="right"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="10dp"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="end"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="0dp"
             android:layout_marginEnd="5dp"
-            android:layout_marginRight="5dp"
             android:background="@drawable/bg_rectangleok"
             android:onClick="okButton"
-            android:text="确认"
+            android:text="@string/确认"
             android:textColor="#333333"
-            android:textSize="20dp" />
+            android:textSize="20sp"
+            tools:ignore="UsingOnClickInXml" />
     </RelativeLayout>
 
-    <com.nanchen.calendarview.MyCalendarView
-        android:id="@+id/calendarView"
+    <RelativeLayout
+        android:id="@+id/relativeLayout6"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
-        android:layout_gravity="top|left"
-        android:layout_marginTop="0dp">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-    </com.nanchen.calendarview.MyCalendarView>
+        <com.nanchen.calendarview.MyCalendarView
+            android:id="@+id/calendarView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="top|start"
+            android:layout_marginTop="0dp">
+
+        </com.nanchen.calendarview.MyCalendarView>
+    </RelativeLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/relativeLayout"
+        android:id="@+id/relativeLayout7"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="10dp">
+        android:layout_height="35dp">
 
         <ImageButton
             android:id="@+id/del"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="10dp"
             android:background="#00FF0000"
             android:onClick="delAccount"
             android:scaleType="fitEnd"
             android:src="@drawable/btn_delete"
             android:visibility="visible"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/delete"
+            tools:ignore="UsingOnClickInXml" />
 
         <ImageButton
             android:id="@+id/retFlag3"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginEnd="10dp"
             android:background="#00FF0000"
             android:onClick="retOnFlag"
             android:scaleType="centerInside"
             android:src="@drawable/btn_return"
             android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:contentDescription="@string/returnflag"
+            tools:ignore="UsingOnClickInXml" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>
+

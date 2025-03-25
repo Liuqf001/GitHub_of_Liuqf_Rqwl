@@ -7,14 +7,18 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.graphics.Outline;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewOutlineProvider;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 //import com.nanchen.calendarview.ClickDataListener;
@@ -58,8 +62,8 @@ public class New_cost extends AppCompatActivity {
 //                Toast toast = Toast.makeText(this, date, Toast.LENGTH_SHORT);
 //                toast.setGravity(Gravity.CENTER, 0, 0);
 //                toast.show();
-                currentselectDate = String.format(Locale.CHINA, "%04d-%02d-%02d", year, month, day);
-            });
+            currentselectDate = String.format(Locale.CHINA, "%04d-%02d-%02d", year, month, day);
+        });
     }
 
 
@@ -68,6 +72,26 @@ public class New_cost extends AppCompatActivity {
         // 在用户按下返回键时执行的代码
 //        Toast.makeText(this, "返回键被点击了！", Toast.LENGTH_SHORT).show();
         super.onBackPressed();
+    }
+
+
+    private void ShowToast(String strToShow, int backColor) {
+        Toast toast = Toast.makeText(New_cost.this, strToShow, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.setDuration(Toast.LENGTH_SHORT);  //提示显示时间短
+        LinearLayout layout = (LinearLayout) toast.getView();
+        layout.setBackgroundColor(backColor);//(0x8f0f0F0F);//0xff0fFF0F   //  Color.GRAY);Color.BLUE
+        layout.setClipToOutline(true);
+        layout.setOutlineProvider(new ViewOutlineProvider() {
+            @Override
+            public void getOutline(View view, Outline outline) {
+                outline.setRoundRect(0, 0, view.getWidth(), view.getHeight(), 40);
+            }
+        });
+        TextView tv = (TextView) layout.getChildAt(0);
+        tv.setTextSize(20);
+        tv.setTextColor(Color.WHITE);
+        toast.show();
     }
 
     public void retOnFlag(View view) {//跳转
@@ -193,9 +217,10 @@ public class New_cost extends AppCompatActivity {
 //        calendarView.setWindowAnimations(R.style.AnimBottom);
 
         if ("".equals(moneyStr) | "".equals(titleStr)) {//可以不填写Title但是不能不填金额
-            Toast toast = Toast.makeText(this, "请填写姓名和金额", Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.CENTER, 0, 0);
-            toast.show();
+//            Toast toast = Toast.makeText(this, "请填写姓名和金额", Toast.LENGTH_SHORT);
+//            toast.setGravity(Gravity.CENTER, 0, 0);
+//            toast.show();
+            ShowToast("请填写姓名和金额",Color.RED);
         } else {
             long account ;
             int iNumber = 0;
@@ -218,9 +243,11 @@ public class New_cost extends AppCompatActivity {
                 }
             }
             if (iNumber > 0) {  //添加了一条或者多条数据
-                Toast toast = Toast.makeText(this, (iNumber) + "条记录被保存成功", Toast.LENGTH_SHORT);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                toast.show();
+//                Toast toast = Toast.makeText(this, (iNumber) + "条记录被保存成功", Toast.LENGTH_SHORT);
+//                toast.setGravity(Gravity.CENTER, 0, 0);
+//                toast.show();
+                String charShow = " "+iNumber+ "条记录被保存成功 " ;
+                ShowToast(charShow,Color.BLUE);
                 if (buttonInOut.getText().toString().equals("收礼")) {
                     setResult(1, intent);  //传参数出去
                 } else {
@@ -228,9 +255,10 @@ public class New_cost extends AppCompatActivity {
                 }
 
             } else {
-                Toast toast = Toast.makeText(this, "请重试", Toast.LENGTH_SHORT);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                toast.show();
+//                Toast toast = Toast.makeText(this, "请重试", Toast.LENGTH_SHORT);
+//                toast.setGravity(Gravity.CENTER, 0, 0);
+//                toast.show();
+                ShowToast("请重试",Color.RED);
                 setResult(-1, intent);//传参数出去
             }
 //            db.close();

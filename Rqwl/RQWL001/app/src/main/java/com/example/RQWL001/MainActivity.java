@@ -1,9 +1,10 @@
 package com.example.RQWL001;
 
-//import me.rosuh.filepicker.adapter.FileListAdapter;
-//import me.rosuh.filepicker.config.FileItemOnClickListener;
-//import me.rosuh.filepicker.config.AbstractFileFilter;
-//import me.rosuh.filepicker.config.FilePickerManager;
+//防止输入法把按钮顶上去  在 AndroidManifest.xml文件中，            android:windowSoftInputMode="adjustPan|stateHidden"
+import me.rosuh.filepicker.bean.FileItemBeanImpl;
+import me.rosuh.filepicker.config.AbstractFileFilter;
+import me.rosuh.filepicker.config.FilePickerConfig;
+import me.rosuh.filepicker.config.FilePickerManager;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -45,7 +46,10 @@ import android.widget.Toast;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
-//import androidx.activity;
+
+//import com.leon.lfilepickerlibrary.utils.Constant;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -53,10 +57,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-//import java.nio.file.Files;
-//import java.nio.file.Path;
-//import java.nio.file.Paths;
-//import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -65,7 +65,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String VersionString = " Version: 2025.03.23 ";
+    private static final String VersionString = " Version: 2025.03.25 ";
     int CurrentIndex = -1;
     int m_total_Num = 0;  //显示总收支差额
     //    int m_appStart_reFlag = 1 ; //app start flag: 1 ;   0:started
@@ -620,64 +620,98 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void importExportDataFromCsv(View view) {//首先清空数据库记录，然后导入文件数据至数据库
-        long currentTime = System.currentTimeMillis();
-        if ((currentTime - lastClickTime) < DOUBLE_CLICK_DELAY)//双击事件，导入数据
-        {//双击事件
-            if (m_total_reFlag == -2) //app start , check table data  is empty?
-            {
-/*                     FilePickerManager.from(this)
-                        .enableSingleChoice()    //                        .filter(new AbstractFileFilter().)
-                        .forResult(FilePickerManager.REQUEST_CODE);
-*/
+    public void selectBackupFile_ToRecovery(View view) {//首先清空数据库记录，然后导入文件数据至数据库
+//     //   ComponentActivity activity = ...; // 获取当前Activity实例
+//        ActivityResultLauncher<Intent> launcher = registerForActivityResult(
+//                new ActivityResultContracts.StartActivityForResult(),
+//                new ActivityResultCallback<Intent>() {
+//                    @Override
+//                    public void onActivityResult(Intent result) {
+//                        if (result != null) {
+//                            String returnedData = result.getStringExtra("data_return");
+//                            // 处理返回的数据
+//                        }
+//                    }
+//                }
+//        );
+//        launcher.launch(new Intent(MainActivity.this, Edit_cost.class));
+//        return ;
+
+        //Android FilePicker
+        FilePickerConfig filePickerConfig = FilePickerManager.from(this);
+        filePickerConfig.enableSingleChoice() ;   //                        .filter(new AbstractFileFilter().)
+        filePickerConfig.showHiddenFiles(false);
+        AbstractFileFilter aFilter = new AbstractFileFilter() {
+            @NotNull
+            @Override
+            public ArrayList<FileItemBeanImpl> doFilter(@NotNull final ArrayList<FileItemBeanImpl> arrayList) {
+                ArrayList<FileItemBeanImpl> fileItemBeans = new ArrayList<>();
+                for (FileItemBeanImpl fileItemBean : arrayList){
+                    if(!fileItemBean.isDir())  //只 显示文件，不显示文件夹
+                    {
+                        String str = fileItemBean.getFileName();
+                        int length = str.length();
+                        if (length >= 4) {
+                            String lastFourChars = str.substring(length - 4, length);
+                            System.out.println(lastFourChars);
+                            if (lastFourChars.toLowerCase(Locale.ROOT).equals(".csv"))   // only display .csv files
+                                fileItemBeans.add(fileItemBean);
+                        } else {
+                            System.out.println("字符串长度小于4");
+                        }
+                    }
+                }
+                return fileItemBeans;
+            }
+        };
+        filePickerConfig.filter(aFilter) ;
+        filePickerConfig.forResult(8888);
+
+        //LFilePicker
+//        LFilePicker lFilePicker = new LFilePicker();
+//        lFilePicker.withActivity(MainActivity.this)
+//                .withTitle("请选择一个备份数据文件")
+//                .withFileFilter(new String[]{".csv"})
+//                .withChooseMode(true)
+//                .withMutilyMode(false)
+//                .withStartPath("/storage/emulated/0")//指定初始显示路径
+//                .withRequestCode(9999);
+//        lFilePicker.start();
 
 //                Intent intent = new Intent(Intent.ACTION_VIEW);
 //                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 //                intent.addCategory(Intent.CATEGORY_DEFAULT);
 //                intent.setType("text/*");
 //                startActivityForResult(intent, 999);
-//
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                String sdCardDir = getSDPath(MainActivity.this);
-                Uri uri = Uri.parse(sdCardDir); // 替换为具体的路径
-                intent.setDataAndType(uri, "text/*"); // 设置数据类型为所有类型
-                startActivityForResult(intent, 999); //                startActivity(intent);//
+
+        //ACTION_GET_CONTENT
+//        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+//        String sdCardDir = getSDPath(MainActivity.this);
+//        Uri uri = Uri.parse(sdCardDir); // 替换为具体的路径
+//        intent.setDataAndType(uri, "text/*"); // 设置数据类型为所有类型
+//                startActivityForResult(intent, 999); //                startActivity(intent);//
 
 //                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 //                intent.setType("text/*");//                intent.setType("application/vnd.android.package-archive");
 //                Intent chooser = Intent.createChooser(intent, "选择一个数据文件");
 //                startActivityForResult(chooser, 999);
 
+    }
+
+    public void importExportDataFromCsv(View view) {//首先清空数据库记录，然后导入文件数据至数据库
+        long currentTime = System.currentTimeMillis();
+        if ((currentTime - lastClickTime) < DOUBLE_CLICK_DELAY)//双击事件，导入数据
+        {//双击事件
+            if (m_total_reFlag == -2) //app start , check table data  is empty?
+            {
+                selectBackupFile_ToRecovery(view);
             } else  //双击事件，导出数据
                 expData();   //  导出数据，备份数据
         }
         //单击此按钮
         lastClickTime = currentTime;
-
-//        return;
+        //        return;
     }
-
-    //    ImportCsv();//  check db is not empty？ 导入数据
-/*
-            ActivityResultLauncher<String> filePickerLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(), uri ->
-            {
-                // 处理返回的 URI，例如获取文件路径或内容等操作
-                try {
-                  //  Uri uri =data.getData();
-
-                    int sdkVersion  = 0;//Build.VERSION.SDK_INT;
-                          String filePath = getRealPathFromUri(uri);  // get file path string
-                           String fileNme = getRealFileName(uri);
-                    String path = getPathFromURI(uri); // 自定义方法获取文件路径，如上所示
-                    // 使用 path 进行后续操作
-                    sdkVersion  = sdkVersion+1  ;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            //);
-            */
-    //      filePickerLauncher.launch("*/*"); // 设置文件类型，*/* 表示所有类型，也可以指定具体类型如 "image/*" 等。
 
 
     public void expData() {//导出文件
@@ -720,7 +754,7 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("datainOut", list.get(CurrentIndex).getInOut());
 
             startActivityForResult(intent, 888);
-            Log.v("ok", "editAccount return");
+//            Log.v("ok", "editAccount return");
         }
     }
 
@@ -730,6 +764,7 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("CurrentName", CurrentName);
         intent.putExtra("datainOut", datainOut);
         startActivityForResult(intent, 777);
+//        Log.v("ok", "addAccount return");
     }
 
     public void delAccount(View view) {//跳转
@@ -1197,17 +1232,30 @@ public class MainActivity extends AppCompatActivity {
                 //            int i = 0 ;
             }
         }
-    /*
-        if (requestCode == FilePickerManager.REQUEST_CODE) {
+        if (requestCode == 8888) {  // Android filepicker
             List<String> dataList = FilePickerManager.obtainData();
             String fileName = dataList.get(0);  // get file path string
             int indexStart = fileName.lastIndexOf("/");
             if (indexStart >= 0) indexStart++;
             fileName = fileName.substring(indexStart);
             ImportCsv(fileName);     // 导入指定文件的数据到数据库
-            m_total_reFlag = 0;
         }
-        */
+
+        if (resultCode == RESULT_OK) {  // LFilePicker
+            if (requestCode == 9999) {
+                String mRESULT_INFO = "paths";
+                List<String> dataList = data.getStringArrayListExtra(mRESULT_INFO);
+                if (dataList!=null) {  //select one file
+                    String fileName = dataList.get(0);
+                    int indexStart = fileName.lastIndexOf("/");
+                    if (indexStart >= 0) indexStart++;
+                    fileName = fileName.substring(indexStart);
+                    ImportCsv(fileName);     // 导入指定文件的数据到数据库
+                    //                Toast.makeText(getApplicationContext(), "选中了" + dataList.size() + "个文件,"+fileName, Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+
     }
 
     @Override

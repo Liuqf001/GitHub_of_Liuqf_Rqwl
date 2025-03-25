@@ -16,9 +16,20 @@
         android:requestLegacyExternalStorage="true">
         <!-- 读取您的USB存储设备中的内容 -->
 
-        <activity android:name=".New_cost"></activity>
-        <activity android:name=".Edit_cost"></activity>
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".New_cost"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            >
+        </activity>
+
+        <activity
+            android:name=".Edit_cost"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            >
+        </activity>
+        <activity android:name=".MainActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden">  //防止输入法把按钮顶上去
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

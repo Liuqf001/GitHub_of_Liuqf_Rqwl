@@ -1,3 +1,29 @@
 <resources>
     <string name="app_name">人情往来</string>
+    <string name="returnflag">returnflag</string>
+    <string name="shouli">收礼</string>
+    <string name="xingming">姓名</string>
+    <string name="lijin">礼金</string>
+    <string name="姓名2">姓名2</string>
+    <string name="礼金2">礼金2</string>
+    <string name="姓名3">姓名3</string>
+    <string name="礼金3">礼金3</string>
+    <string name="姓名4">姓名4</string>
+    <string name="礼金4">礼金4</string>
+    <string name="姓名5">姓名5</string>
+    <string name="礼金5">礼金5</string>
+    <string name="事由">事由</string>
+    <string name="_姓名">" 姓名"</string>
+    <string name="金额">金额</string>
+    <string name="日期">日期</string>
+    <string name="收礼">收礼</string>
+    <string name="批量修改">批量修改</string>
+    <string name="关">关</string>
+    <string name="开">开</string>
+    <string name="确认">确认</string>
+    <string name="delete">delete</string>
+    <string name="导出数据">导出数据</string>
+    <string name="搜索">搜索</string>
+    <string name="增加记录">增加记录</string>
+    <string name="总行数">总行数</string>
 </resources>

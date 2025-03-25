@@ -2,6 +2,7 @@ package com.example.RQWL001;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
@@ -47,6 +48,7 @@ public class Edit_cost extends AppCompatActivity {
     String CurrentRemark;
     String CurrentDate;
     String CurrentMoney;
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
     Switch aSwitchButton;
 
     ArrayAdapter<String> adapter;
@@ -64,16 +66,14 @@ public class Edit_cost extends AppCompatActivity {
         initView();
 
         aSwitchButton  = (Switch) findViewById(R.id.switch_batch);
-        aSwitchButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+        aSwitchButton.setOnCheckedChangeListener(((CompoundButton compoundButton, boolean isChecked)-> {
                 if(isChecked){
-                    ShowToast(" 打开此开关后，您可批量修改姓名、事由、日期, 但不可修改金额数据！",Color.RED);
+                    ShowToast("打开此开关后，您可批量修改姓名、事由、日期, 但不可修改金额数据！",Color.RED);
                     et_cost_money.setEnabled(false);
                 }
                 else    et_cost_money.setEnabled(true);
             }
-        });
+        ));
     }
 
     @Override
@@ -215,7 +215,7 @@ public class Edit_cost extends AppCompatActivity {
 
         ContentValues values = new ContentValues();
         int account ;
-        Toast toast;
+//        Toast toast;
         switch (iModeFlag) {
             case 1:   //同一个人，批量修改姓名
                 values.put("Title", titleStr);
@@ -255,7 +255,7 @@ public class Edit_cost extends AppCompatActivity {
             ShowToast("请填写姓名和金额!", Color.RED) ;
             return;
         }
-        Toast toast;
+//        Toast toast;
         long account ;
         Intent intent = getIntent();
         //批量修改记录,批量修改姓名，事由，日期信息，有修改时才批量处理
