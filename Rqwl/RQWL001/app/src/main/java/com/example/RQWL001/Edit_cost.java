@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -16,6 +17,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewOutlineProvider;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -25,8 +27,6 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
-//import android.util.Log;
-//import com.nanchen.calendarview.ClickDataListener;
 import com.nanchen.calendarview.MyCalendarView;
 
 import java.util.ArrayList;
@@ -70,8 +70,12 @@ public class Edit_cost extends AppCompatActivity {
                 if(isChecked){
                     ShowToast("打开此开关后，您可批量修改姓名、事由、日期, 但不可修改金额数据！",Color.RED);
                     et_cost_money.setEnabled(false);
+                    buttonInOut.setEnabled(false);
                 }
-                else    et_cost_money.setEnabled(true);
+                else  {
+                    et_cost_money.setEnabled(true);
+                    buttonInOut.setEnabled(true);
+                }
             }
         ));
     }
@@ -208,14 +212,13 @@ public class Edit_cost extends AppCompatActivity {
     public void batchUpdate(int iModeFlag) {  //return 1: succeed ; 0: failed
         SQLiteDatabase db = helper.getWritableDatabase();
         String titleStr = et_cost_title.getText().toString().trim();
-//        String moneyStr = et_cost_money.getText().toString().trim();
+        //        String moneyStr = et_cost_money.getText().toString().trim();
         String remarkStr = et_cost_remark.getText().toString().trim();
-//        String inoutStr = buttonInOut.getText().toString().trim();
+        //        String inoutStr = buttonInOut.getText().toString().trim();
         String dateStr = dp_cost_date.getText().toString().trim();
 
         ContentValues values = new ContentValues();
         int account ;
-//        Toast toast;
         switch (iModeFlag) {
             case 1:   //同一个人，批量修改姓名
                 values.put("Title", titleStr);
@@ -223,126 +226,98 @@ public class Edit_cost extends AppCompatActivity {
                 if (account > 0)
                     ShowToast("姓名信息批量修改成功!", Color.BLUE) ;
                 break;
-            case 2:   //同一事件，批量修改事由
+            case 2:   //同一事件（事件描述相同，且在同一天发生），批量修改事由
                 values.put("Remark", remarkStr);
-                account = db.update("account", values, "Remark=?", new String[]{CurrentRemark});
+                account = db.update("account", values, "Remark=? and Date=?", new String[]{CurrentRemark,CurrentDate});
                 if (account > 0)
                     ShowToast("事由信息批量修改成功!", Color.BLUE) ;
                 break;
-            case 3:   //同一事件，批量修改日期
+            case 3:   //同一事件（事件描述相同，且在同一天发生），批量修改日期
                 values.put("Date", dateStr);
-                account = db.update("account", values, "Remark=?", new String[]{CurrentRemark});
+                account = db.update("account", values, "Remark=? and Date=?", new String[]{CurrentRemark,CurrentDate});
                 if (account > 0)
                     ShowToast("日期信息批量修改成功!", Color.BLUE) ;
                 break;
         }
         db.close();
-//        return ;
-
-//        if (account > 0)            return 1 ;
-//        else                        return 0 ;
     }
 
     public void okButton(View view) {
-        String titleStr = et_cost_title.getText().toString().trim();
-        String moneyStr = et_cost_money.getText().toString().trim();
-        String remarkStr = et_cost_remark.getText().toString().trim();
-        String inoutStr = buttonInOut.getText().toString().trim();
-        String dateStr = dp_cost_date.getText().toString().trim();
+        String new_titleStr = et_cost_title.getText().toString().trim();
+        String new_moneyStr = et_cost_money.getText().toString().trim();
+        String new_remarkStr = et_cost_remark.getText().toString().trim();
+        String new_inoutStr = buttonInOut.getText().toString().trim();
+        String new_dateStr = dp_cost_date.getText().toString().trim();
 
-        //可以不填写Title但是不能不填金额
-        if ("".equals(moneyStr) | "".equals(titleStr)) {
+        //可以不填写Title，但是不能不填金额， 姓名和金额不能为空
+        if ("".equals(new_moneyStr) | "".equals(new_titleStr)) {
             ShowToast("请填写姓名和金额!", Color.RED) ;
             return;
         }
-//        Toast toast;
+        // 没有修改任何数据， 直接返回 上一个界面
+        if((new_titleStr.equals(CurdataName)) &&(new_moneyStr.equals(CurrentMoney)) && (new_remarkStr.equals(CurrentRemark)) && (new_dateStr.equals(CurrentDate))) {
+            ShowToast("您没有修改任何信息!", Color.RED) ;
+            return;
+        }
+
+        int  m_result;
         long account ;
         Intent intent = getIntent();
+        intent.putExtra("CurrentName", new_titleStr);  //传参数出去， bring data to father view 带出数据
+        intent.putExtra("CurrentRemark", new_remarkStr);
+        intent.putExtra("CurrentDate", new_dateStr);
+        intent.putExtra("datainOut", new_inoutStr);
         //批量修改记录,批量修改姓名，事由，日期信息，有修改时才批量处理
-//        Switch aSwitchButton = (Switch) findViewById(R.id.switch_batch);
         boolean isCheckFlag = aSwitchButton.isChecked();
-        //批量开关没打开
+        //批量开关没打开 ,  修改单条记录数据
         if (!isCheckFlag) {
             //修改单条记录,单条记录修改, 姓名，事由，日期没有改动的情况下，直接单条修改即可
             ContentValues values = new ContentValues();
-            values.put("Title", titleStr);
-            values.put("Remark", remarkStr);
-            values.put("Money", moneyStr);
-            values.put("Date", dateStr);
-            values.put("InOut", inoutStr);
+            values.put("Title", new_titleStr);
+            values.put("Remark", new_remarkStr);
+            values.put("Money", new_moneyStr);
+            values.put("Date", new_dateStr);
+            values.put("InOut", new_inoutStr);
             SQLiteDatabase db = helper.getWritableDatabase();
             account = db.update("account", values, "_id=" + CurrentId, null);
             db.close();
 
-            intent.putExtra("CurrentName", titleStr);  //传参数出去
             if (account > 0) {
-                ShowToast("修改信息保存成功!", Color.BLUE) ;
-                if (buttonInOut.getText().toString().equals("收礼")) {
-                    setResult(1, intent);  //传参数出去
-                } else {
-                    setResult(2, intent);//传参数出去
-                }
+                ShowToast("修改信息保存成功!", Color.BLUE) ;//  修改成功， 传参数出去
+                m_result = RESULT_OK ;
             } else {
+                m_result = RESULT_CANCELED ;  //  修改失败， 传参数出去
                 ShowToast("请重试!", Color.BLUE) ;
-                setResult(-1, intent);//  修改失败， 传参数出去
             }
-        } else {        //批量开关?  已经打开
-            // 用户修改了 三个数据之一  //
-            if ((!titleStr.equals(CurdataName)) | (!remarkStr.equals(CurrentRemark)) | (!dateStr.equals(CurrentDate))) {
-                String tmpAlertInfo = "您确认要批量修改如下信息？\n\n";
-                if (!titleStr.equals(CurdataName))
-                    tmpAlertInfo = tmpAlertInfo + " 姓名: " + CurdataName + "->" + titleStr + "\n";
-                if (!remarkStr.equals(CurrentRemark))
-                    tmpAlertInfo = tmpAlertInfo + " 事由: " + CurrentRemark + "->" + remarkStr + "\n";
-                if (!dateStr.equals(CurrentDate))
-                    tmpAlertInfo = tmpAlertInfo + " 事件日期: " + CurrentDate.substring(0, 10) + "->" + dateStr.substring(0, 10);
+        } else {
+            //批量开关已经打开 // 用户修改了 三个数据之一
+            String tmpAlertInfo = "您确认要批量修改如下信息？\n\n";
+            if (!new_titleStr.equals(CurdataName))
+                tmpAlertInfo = tmpAlertInfo + " 姓名: " + CurdataName + "->" + new_titleStr + "\n";
+            if (!new_remarkStr.equals(CurrentRemark))
+                tmpAlertInfo = tmpAlertInfo + " 事由: " + CurrentRemark + "->" + new_remarkStr + "\n";
+            if (!new_dateStr.equals(CurrentDate))
+                tmpAlertInfo = tmpAlertInfo + " 事件日期: " + CurrentDate.substring(0, 10) + "->" + new_dateStr.substring(0, 10);
 
-                boolean isOk = ConfirmDialog.showComfirmDialog(this, "重要提示", tmpAlertInfo);
-                if (isOk) {  //确认批量修改数据
-                    if (!titleStr.equals(CurdataName)) batchUpdate(1);
-                    if (!remarkStr.equals(CurrentRemark)) batchUpdate(2);
-                    if (!dateStr.equals(CurrentDate)) batchUpdate(3);
-                    setResult(1, intent);//传参数出去
-                } else {  //取消， 批量修改数据
-                    return;
-                }
-
-//                setResult(1, intent);//传参数出去
-//                intent.putExtra("CurrentName", titleStr);  // bring data to father view 带出数据
-//                intent.putExtra("CurrentRemark", remarkStr);
-//                intent.putExtra("CurrentDate", dateStr);
-//                AlertDialog.Builder dialog02 = new AlertDialog.Builder(this);
-//                dialog02.setTitle("重要提示");
-//                dialog02.setMessage(tmpAlertInfo);
-//                dialog02.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int whichButton) {
-//                        String titleStr = et_cost_title.getText().toString().trim();
-//                        String remarkStr = et_cost_remark.getText().toString().trim();
-//                        String dateStr = dp_cost_date.getText().toString().trim();
-//                        if (!titleStr.equals(CurdataName)) batchUpdate(1);
-//                        if (!remarkStr.equals(CurrentRemark)) batchUpdate(2);
-//                        if (!dateStr.equals(CurrentDate)) batchUpdate(3);
-//                        //((Edit_cost)context).finish();   //由对话框关闭Activity。
-//                        finish();
-//                        return;
-//                    }
-//                });
-//                dialog02.setNegativeButton("放弃", new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int whichButton) {
-//                        return;  // return to  edit  view
-//                    }
-//                });
-//                dialog02.setCancelable(false);
-//                dialog02.show();
-            } else {                // 没有修改任何数据， 直接返回 上一个界面
-                ShowToast("没有修改任何信息!", Color.BLUE) ;
+            boolean isOk = ConfirmDialog.showComfirmDialog(this, "重要提示", tmpAlertInfo);
+            if (isOk) {  //确认批量修改数据
+                if (!new_titleStr.equals(CurdataName)) batchUpdate(1);
+                if (!new_remarkStr.equals(CurrentRemark)) batchUpdate(2);
+                if (!new_dateStr.equals(CurrentDate)) batchUpdate(3);
+                m_result = RESULT_OK ;//批量修改数据成功,传参数出去
+            } else {  //取消批量修改数据
+                return;
             }
+
         }
-        intent.putExtra("CurrentName", titleStr);  // bring data to father view 带出数据
-        intent.putExtra("CurrentRemark", remarkStr);
-        intent.putExtra("CurrentDate", dateStr);
+        setResult(m_result, intent);  //  单条记录修改 or 批量修改数据， 传参数出去
+
+        //Close the input soft keyboard
+        View view1 = getCurrentFocus();
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view1.getWindowToken(),0);
+
         finish();
-//        return;
 
     }
 
@@ -352,24 +327,20 @@ public class Edit_cost extends AppCompatActivity {
         dialog02.setTitle("提示");
         dialog02.setMessage("确认删除该笔人情记录？");
         dialog02.setPositiveButton("确定", ((DialogInterface dialog, int whichButton)-> {
-                SQLiteDatabase db = helper.getReadableDatabase();
-                //delete one record
-                String sqlwhere = "_id=" + CurrentId;
-                db.delete("account", sqlwhere, null);
-                db.close();
-//                Toast toast = Toast.makeText(Edit_cost.this, "该条记录被成功删除", Toast.LENGTH_SHORT);
-//                toast.setGravity(Gravity.CENTER, 0, 0);
-//                toast.show();
-                //删除后, 返回前一页
-                Intent intent = getIntent();
-//                intent.putExtra("CurrentName", titleStr);  //传参数出去
-                setResult(202, intent);//传参数出去202 ,201,202为修改页面参数
-                finish();
-//                return;
-            }));
+            SQLiteDatabase db = helper.getReadableDatabase();
+            //delete one record
+            String sqlwhere = "_id=" + CurrentId;
+            db.delete("account", sqlwhere, null);
+            db.close();
+            ShowToast(" 该条记录被成功删除! ", Color.RED);
+            //删除记录后, 返回前一页
+            Intent intent = getIntent();
+            setResult(RESULT_OK, intent);//传参数出去202 ,201,202为修改页面参数
+            finish();//                return;
+        }));
         dialog02.setNegativeButton("取消", ((DialogInterface dialog, int whichButton)-> {
-//                return;
-            }));
+        //                return;
+        }));
         dialog02.show();
     }
 

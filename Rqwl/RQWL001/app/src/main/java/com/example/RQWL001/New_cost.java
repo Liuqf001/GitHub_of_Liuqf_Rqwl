@@ -3,6 +3,7 @@ package com.example.RQWL001;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -13,6 +14,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewOutlineProvider;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -20,8 +22,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-//import com.nanchen.calendarview.ClickDataListener;
 import com.nanchen.calendarview.MyCalendarView;
 
 import java.util.ArrayList;
@@ -206,7 +206,7 @@ public class New_cost extends AppCompatActivity {
 
     public void okButton(View view) {
         String titleStr = et_cost_title[0].getText().toString().trim();
-        String moneyStr = et_cost_money[0].getText().toString().trim();
+        String moneyStr ;
         String remarkStr = et_cost_remark.getText().toString().trim();
         String inoutStr = buttonInOut.getText().toString().trim();
         String dateStr;
@@ -215,17 +215,22 @@ public class New_cost extends AppCompatActivity {
         dateStr = calendarView.getcurrentselectDate() + " " + calendarView.getcurrentsellunarDate();
 
 //        calendarView.setWindowAnimations(R.style.AnimBottom);
+        long account ;
+        int iNumber = 0;
+        Intent intent = getIntent();
+        intent.putExtra("CurrentName", titleStr);  //传参数出去， bring data to father view 带出数据
+        intent.putExtra("CurrentRemark", remarkStr);
+        intent.putExtra("CurrentDate", dateStr);
+        intent.putExtra("datainOut", inoutStr);
 
-        if ("".equals(moneyStr) | "".equals(titleStr)) {//可以不填写Title但是不能不填金额
-//            Toast toast = Toast.makeText(this, "请填写姓名和金额", Toast.LENGTH_SHORT);
-//            toast.setGravity(Gravity.CENTER, 0, 0);
-//            toast.show();
-            ShowToast("请填写姓名和金额",Color.RED);
-        } else {
-            long account ;
-            int iNumber = 0;
-            Intent intent = getIntent();
-            intent.putExtra("CurrentName", titleStr);  //传参数出去
+        for (int i = 0; i < 5; i++) {
+            titleStr = et_cost_title[i].getText().toString().trim();
+            moneyStr = et_cost_money[i].getText().toString().trim();
+            if ((!"".equals(moneyStr)) && (!"".equals(titleStr)))  // 姓名和金额不能为空
+                iNumber = iNumber + 1;
+        }
+        if (iNumber > 0) {
+            iNumber = 0;
             for (int i = 0; i < 5; i++) {
                 SQLiteDatabase db = helper.getWritableDatabase();
                 ContentValues values = new ContentValues();
@@ -243,28 +248,23 @@ public class New_cost extends AppCompatActivity {
                 }
             }
             if (iNumber > 0) {  //添加了一条或者多条数据
-//                Toast toast = Toast.makeText(this, (iNumber) + "条记录被保存成功", Toast.LENGTH_SHORT);
-//                toast.setGravity(Gravity.CENTER, 0, 0);
-//                toast.show();
                 String charShow = " "+iNumber+ "条记录被保存成功 " ;
                 ShowToast(charShow,Color.BLUE);
-                if (buttonInOut.getText().toString().equals("收礼")) {
-                    setResult(1, intent);  //传参数出去
-                } else {
-                    setResult(2, intent);//传参数出去
-                }
-
+                setResult(RESULT_OK, intent);//传参数出去
             } else {
-//                Toast toast = Toast.makeText(this, "请重试", Toast.LENGTH_SHORT);
-//                toast.setGravity(Gravity.CENTER, 0, 0);
-//                toast.show();
                 ShowToast("请重试",Color.RED);
-                setResult(-1, intent);//传参数出去
+                setResult(RESULT_CANCELED, intent);//，添加记录失败，传参数出去
             }
-//            db.close();
-            finish();
-//            return;
+            //Close the input soft keyboard
+            View view1 = getCurrentFocus();
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view1.getWindowToken(),0);
+            finish(); //销毁本页面
         }
-
+        else
+        {
+            ShowToast("请填写姓名和金额", Color.RED); // 姓名和金额不能为空
+            setResult(RESULT_CANCELED, intent); // 传参数出去
+        }
     }
 }

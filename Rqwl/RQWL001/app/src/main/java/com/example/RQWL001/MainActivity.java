@@ -6,7 +6,10 @@ import me.rosuh.filepicker.config.AbstractFileFilter;
 import me.rosuh.filepicker.config.FilePickerConfig;
 import me.rosuh.filepicker.config.FilePickerManager;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import org.jetbrains.annotations.NotNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
@@ -49,8 +52,6 @@ import android.view.MotionEvent;
 
 //import com.leon.lfilepickerlibrary.utils.Constant;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -65,7 +66,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String VersionString = " Version: 2025.03.25 ";
+    private static final String VersionString = " Version: 2025.03.26 ";
     int CurrentIndex = -1;
     int m_total_Num = 0;  //显示总收支差额
     //    int m_appStart_reFlag = 1 ; //app start flag: 1 ;   0:started
@@ -98,7 +99,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText Mtotal;
     private EditText Men_total;
     private List<CostList> list;
-
+    ActivityResultLauncher<Intent> launcherAdd;
+    ActivityResultLauncher<Intent> launcherEdit;
     private GestureDetector gestureDetector;
 
     @Override
@@ -135,6 +137,55 @@ public class MainActivity extends AppCompatActivity {
             initData(CurrentName);  //初始化主界面，显示记录
         }
 
+        launcherAdd =
+                registerForActivityResult(
+                        new ActivityResultContracts.StartActivityForResult(),
+                        result -> {
+                            int resultCode = result.getResultCode();
+                            if (resultCode==RESULT_OK) {
+                                Intent data = result.getData();
+                                if (data != null) {
+                                    CurrentName =
+                                            data.getStringExtra("CurrentName"); // data  return from  son's View(editAccount , 修改)
+                                    CurrentRemark =
+                                            data.getStringExtra("CurrentRemark"); // data  return from  son's View(editAccount , 修改)
+                                    datainOut = result
+                                            .getData().getStringExtra("datainOut"); // data  return from  son's View(editAccount , 修改)
+                                }
+                            }
+                            CurPageNoFlag = 2;
+                            m_total_reFlag = -1;
+                            // 增加新的记录数据 ，备份数据
+                            CurWorkmodeFlag = 1; // 按照联系人显示模式，显示结果 ，在第二页显示
+                            initData(CurrentName); // 修改/添加/修改记录后 重新显示
+                            if ( resultCode==RESULT_OK ) // 添加数据记录成功
+                                ExportCsv("FinalAccountAdd", true); // 增加新的记录数据后，自动导出一次记录 to  FinalAccountAdd
+                        });
+
+        launcherEdit =
+                registerForActivityResult(
+                        new ActivityResultContracts.StartActivityForResult(),
+                        result -> {
+                            int resultCode = result.getResultCode();
+                            if (resultCode==RESULT_OK) {
+                                Intent data = result.getData();
+                                if (data != null) {
+                                    CurrentName =
+                                            data.getStringExtra("CurrentName"); // data  return from  son's View(editAccount , 修改)
+                                    CurrentRemark =
+                                            data.getStringExtra("CurrentRemark"); // data  return from  son's View(editAccount , 修改)
+                                    datainOut = result
+                                            .getData().getStringExtra("datainOut"); // data  return from  son's View(editAccount , 修改)
+
+                                }
+                            }
+                            CurPageNoFlag = 2;
+                            m_total_reFlag = -1;
+                            // 删除指定行记录数据 ，备份数据
+                            initData(CurrentName); // 修改/添加/修改记录后 重新显示
+                            if ( resultCode==RESULT_OK ) // 修改数据记录成功  1，2，202
+                                ExportCsv("FinalAccountDel", true); // 增加新的记录数据后，自动导出一次记录 to  FinalAccountAdd
+                        });
     }
 
     @Override
@@ -753,7 +804,10 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("CurrentMoney", list.get(CurrentIndex).getMoney());
             intent.putExtra("datainOut", list.get(CurrentIndex).getInOut());
 
-            startActivityForResult(intent, 888);
+            if(launcherEdit!=null) {
+                launcherEdit.launch(intent);
+            }
+//            startActivityForResult(intent, 888);
 //            Log.v("ok", "editAccount return");
         }
     }
@@ -763,7 +817,11 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, New_cost.class);
         intent.putExtra("CurrentName", CurrentName);
         intent.putExtra("datainOut", datainOut);
-        startActivityForResult(intent, 777);
+
+        if(launcherAdd!=null)
+            launcherAdd.launch(intent);
+
+//        startActivityForResult(intent, 777);
 //        Log.v("ok", "addAccount return");
     }
 
@@ -1193,33 +1251,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if ((requestCode == 777) || (requestCode == 888)) {
-            if (resultCode > 0) {
-                CurrentName = data.getStringExtra("CurrentName");   // data  return from  son's View(editAccount , 修改)
-                CurrentRemark = data.getStringExtra("CurrentRemark");  // data  return from  son's View(editAccount , 修改)
-
-                if (resultCode == 1) {
-                    datainOut = "收礼";
-                } else if (resultCode == 2) {
-                    datainOut = "送礼";
-                }
-            }
-            CurPageNoFlag = 2  ;
-            m_total_reFlag = -1 ;
-            if (requestCode == 777) {   // 增加新的记录数据 ，备份数据
-                CurWorkmodeFlag = 1 ;   //按照联系人显示模式，显示结果 ，在第二页显示
-                this.initData(CurrentName);   //修改/添加/修改记录后 重新显示
-                if (resultCode > 0)  //添加数据记录成功
-                    ExportCsv("FinalAccountAdd",true);   //增加新的记录数据后，自动导出一次记录 to  FinalAccountAdd
-            }
-            if (requestCode == 888) {   // 删除指定行记录数据 ，备份数据
-                if(resultCode==202)
-                    ShowToast(" 该条记录被成功删除! ", Color.RED);
-                this.initData(CurrentName);   //修改/添加/修改记录后 重新显示
-                if (resultCode > 0)  //修改数据记录成功  1，2，202
-                    ExportCsv("FinalAccountDel",true);   //增加新的记录数据后，自动导出一次记录 to  FinalAccountAdd
-            }
-        }
+        // ACTION_GET_CONTENT  导入指定的备份数据文件
         if ((resultCode == RESULT_OK)&&(requestCode == 999)) {   // select file  导入指定的备份数据文件
             //            if( data==null ){}  //没有选择数据文件
             if (data != null) {  //选择了数据文件
@@ -1228,6 +1260,7 @@ public class MainActivity extends AppCompatActivity {
                 ImportCsv(fileNme);     // 导入指定文件的数据到数据库
             }
         }
+        // Androidfilepicker  or LFilePicker 导入指定的备份数据文件
         if (resultCode == RESULT_OK) {
             if ((requestCode == 8899) || (requestCode == 9988)) {
                 String fileName = "";
