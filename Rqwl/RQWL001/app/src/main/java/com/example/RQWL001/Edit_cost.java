@@ -71,6 +71,17 @@ public class Edit_cost extends AppCompatActivity {
                     ShowToast("打开此开关后，您可批量修改姓名、事由、日期, 但不可修改金额数据！",Color.RED);
                     et_cost_money.setEnabled(false);
                     buttonInOut.setEnabled(false);
+
+                    if (!buttonInOut.getText().toString().equals(CurdatainOut))
+                        buttonInOut.setText(CurdatainOut);
+                    GradientDrawable gdOne = (GradientDrawable) buttonInOut.getBackground(); // get drabable
+                    if (CurdatainOut.equals("送礼")) {
+                        gdOne.setColor(Color.GREEN);
+                        et_cost_money.setTextColor(Color.GREEN);
+                    } else {
+                        gdOne.setColor(Color.RED);
+                        et_cost_money.setTextColor(Color.RED);
+                    }
                 }
                 else  {
                     et_cost_money.setEnabled(true);
@@ -249,15 +260,24 @@ public class Edit_cost extends AppCompatActivity {
         String new_inoutStr = buttonInOut.getText().toString().trim();
         String new_dateStr = dp_cost_date.getText().toString().trim();
 
+        //批量修改记录开关标志
+        boolean isBatchFlag = aSwitchButton.isChecked();
+        boolean isNoChangeFlag = false ; //是否有修改数据 true -- no chang
+
         //可以不填写Title，但是不能不填金额， 姓名和金额不能为空
         if ("".equals(new_moneyStr) | "".equals(new_titleStr)) {
             ShowToast("请填写姓名和金额!", Color.RED) ;
             return;
         }
         // 没有修改任何数据， 直接返回 上一个界面
-        if((new_titleStr.equals(CurdataName)) &&(new_moneyStr.equals(CurrentMoney)) && (new_remarkStr.equals(CurrentRemark)) && (new_dateStr.equals(CurrentDate))) {
+        if(new_titleStr.equals(CurdataName) &&new_moneyStr.equals(CurrentMoney) && new_remarkStr.equals(CurrentRemark) && new_inoutStr.equals(CurdatainOut) && new_dateStr.equals(CurrentDate))
+            isNoChangeFlag = true ;
+        else if((isBatchFlag) && new_titleStr.equals(CurdataName)  && new_remarkStr.equals(CurrentRemark) &&  new_dateStr.equals(CurrentDate))
+            isNoChangeFlag = true ; // 批量修改，  只可以修改姓名，事由，日期三类信息，
+
+        if (isNoChangeFlag) {
             ShowToast("您没有修改任何信息!", Color.RED) ;
-            return;
+            return; // 没有修改数据 ，直接返回
         }
 
         int  m_result;
@@ -267,10 +287,8 @@ public class Edit_cost extends AppCompatActivity {
         intent.putExtra("CurrentRemark", new_remarkStr);
         intent.putExtra("CurrentDate", new_dateStr);
         intent.putExtra("datainOut", new_inoutStr);
-        //批量修改记录,批量修改姓名，事由，日期信息，有修改时才批量处理
-        boolean isCheckFlag = aSwitchButton.isChecked();
         //批量开关没打开 ,  修改单条记录数据
-        if (!isCheckFlag) {
+        if (!isBatchFlag) {
             //修改单条记录,单条记录修改, 姓名，事由，日期没有改动的情况下，直接单条修改即可
             ContentValues values = new ContentValues();
             values.put("Title", new_titleStr);
@@ -290,7 +308,7 @@ public class Edit_cost extends AppCompatActivity {
                 ShowToast("请重试!", Color.BLUE) ;
             }
         } else {
-            //批量开关已经打开 // 用户修改了 三个数据之一
+            //批量开关已经打开 // 用户修改了 三个数据之一  批量修改姓名，事由，日期信息，有修改时才批量处理
             String tmpAlertInfo = "您确认要批量修改如下信息？\n\n";
             if (!new_titleStr.equals(CurdataName))
                 tmpAlertInfo = tmpAlertInfo + " 姓名: " + CurdataName + "->" + new_titleStr + "\n";
