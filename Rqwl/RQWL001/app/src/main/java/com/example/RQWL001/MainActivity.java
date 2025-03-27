@@ -355,13 +355,15 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemLongClickListener((AdapterView<?> parent, View view, int position, long id) -> {
             m_total_reFlag = 0;
             CurrentIndex = position;
+            CurrentName = list.get(CurrentIndex).getTitle();
             String tmpid = list.get(CurrentIndex).get_id();   //_id
             if ((parent).getTag() != null) {
                 ((View) (parent).getTag()).setBackgroundColor(Color.TRANSPARENT);
             }
             (parent).setTag(view);
             view.setBackgroundColor(Color.RED);
-            if (!"-1".equals(tmpid))  //"-1"=_id  单条记录，才可以删除
+//            if (!"-1".equals(tmpid))  //"-1"=_id  单条记录，才可以删除
+            if(CurWorkmodeFlag == 1)  //联系人模式，可以一次删除 该人的所有记录
             {
                 delAccount(view);  // delete one person or  one record
             }
@@ -510,9 +512,12 @@ public class MainActivity extends AppCompatActivity {
                 m_Tongji_Count++;
             }
         }
-        String charShow = "" + m_Tongji_Count + "行(" + m_record_Count + "笔)";   //笔";
-        if(m_Tongji_Count == 0)
-            charShow = ""  + m_record_Count + "笔";   //笔";; //人名or事件统计是有效   Page two
+        String charShow = "" ;
+        if (m_record_Count > 0) {
+            charShow = charShow + m_Tongji_Count + "行(" + m_record_Count + "笔)"; // 笔";
+            if (m_Tongji_Count == 0)
+                charShow = "" + m_record_Count + "笔"; // 笔";; //人名or事件统计是有效   Page two
+        }
         Men_total.setText(charShow); //显示总条目数量
         if (m_total_Num >= 0) {
             if (m_total_Num == 0) {
@@ -854,22 +859,22 @@ public class MainActivity extends AppCompatActivity {
             {
 //                ExportCsv("FinalAccountDel");  //删除前，自动导出一次记录 to  FinalAccountDel
                 SQLiteDatabase db = helper.getReadableDatabase();
- /*               //if (CurrentIndex < 0)    //没有选中记录  全部删除？
+//                if (CurrentIndex < 0)    //没有选中记录  全部删除？
                  {
                     if(CurrentName.equals("")) {
-                        db.delete("account", null,null );
-                        db.execSQL("truncate table account");  //delete all
+//                        db.delete("account", null,null );
+//                        db.execSQL("truncate table account");  //delete all
                     }
                     else
                     {//delete one person's all records
                         db.delete("account", "Title like ?", new String[]{"%"+CurrentName+"%"});
                     }
-                }*/
-                //else//delete one record
+                }
+//                else//delete one record
                 {
                     String sqlwhere = "_id=" + list.get(CurrentIndex).get_id();
                     db.delete("account", sqlwhere, null);
-                    ShowToast(" 该条记录被成功删除! ", Color.RED);
+                    ShowToast(" 该记录被成功删除! ", Color.RED);
                 }
                 db.close();
 //                ExportCsv("FinalAccount");  //删除记录后，自动导出一次记录  2024.06.12
@@ -926,7 +931,7 @@ public class MainActivity extends AppCompatActivity {
         removeUnderLine();
     }
 
-    public void onThings(View view) {
+    public void onShowVersion(View view) {
         long currentTime = System.currentTimeMillis();
         if ((currentTime - lastClickTime) < DOUBLE_CLICK_DELAY)//双击事件，导入数据
             ShowToast(VersionString, Color.GREEN);
@@ -944,6 +949,43 @@ public class MainActivity extends AppCompatActivity {
         initData(CurrentName);  //联系人模式，第一页 ，显示记录
         */
 //        return;
+    }
+
+    public void onDeleteAlldata(View view) {
+        long currentTime = System.currentTimeMillis();
+        if ((currentTime - lastClickTime) < DOUBLE_CLICK_DELAY) // 删除所有数据库记录数据
+        {
+            AlertDialog.Builder dialog02 = new AlertDialog.Builder(this);
+            dialog02.setTitle("重要提示");
+            if (CurrentIndex < 0) // 没有选中记录  全部删除？
+            {
+                dialog02.setMessage("您的所有人情记录都将被删除，确认删除？");
+                dialog02.setPositiveButton(
+                        "确定",
+                        ((DialogInterface dialog, int whichButton) -> {
+                            {
+                                ExportCsv("FinalAccountDel", true); // 删除前，自动导出一次记录 to  FinalAccountDel
+                                SQLiteDatabase db = helper.getReadableDatabase();
+                                if (CurrentName.equals(""))
+                                    db.delete(
+                                            "account", null,
+                                            null); //                        db.execSQL("truncate table account");
+                                // //delete all
+                                db.close();
+                                initData(CurrentName); // 删除后重新显示记录
+                                CurrentIndex = -1; //                return;
+                                m_total_reFlag = -2;  //数据清空后， 允许导入数据
+                            }
+                        }));
+                dialog02.setNegativeButton(
+                        "取消",
+                        ((DialogInterface dialog, int whichButton) -> {
+                            //            return;
+                        }));
+                dialog02.show();
+            }
+        }
+        lastClickTime = currentTime;
     }
 
     public void onContacts(View view) {

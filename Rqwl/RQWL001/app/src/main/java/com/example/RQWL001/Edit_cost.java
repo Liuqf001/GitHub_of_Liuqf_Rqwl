@@ -88,7 +88,7 @@ public class Edit_cost extends AppCompatActivity {
                         gdOne.setColor(Color.RED);
                         et_cost_money.setTextColor(Color.RED);
                     }
-                    aSwitchButton.setThumbTintList(ColorStateList.valueOf(Color.GREEN));
+                    aSwitchButton.setThumbTintList(ColorStateList.valueOf(Color.GREEN));//批量开关颜色变化
                 }
                 else  {
                     et_cost_money.setEnabled(true);

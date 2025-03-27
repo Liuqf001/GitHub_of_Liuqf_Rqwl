@@ -27,4 +27,5 @@
     <string name="搜索">搜索</string>
     <string name="增加记录">增加记录</string>
     <string name="总行数">总行数</string>
+    <string name="Blank">" "</string>
 </resources>
