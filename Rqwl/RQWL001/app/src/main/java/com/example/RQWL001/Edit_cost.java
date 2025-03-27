@@ -8,6 +8,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -40,6 +41,7 @@ public class Edit_cost extends AppCompatActivity {
     private EditText et_cost_title;
     private EditText et_cost_money;
     private EditText et_cost_remark;
+    private EditText et_cost_memo;
     private EditText dp_cost_date;
     private Button buttonInOut;
     int CurrentId;   //页面初始化时，传入六个的参数
@@ -48,6 +50,7 @@ public class Edit_cost extends AppCompatActivity {
     String CurrentRemark;
     String CurrentDate;
     String CurrentMoney;
+    String CurrentMemo;
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     Switch aSwitchButton;
 
@@ -65,15 +68,18 @@ public class Edit_cost extends AppCompatActivity {
         findViews();    //准备姓名提示
         initView();
 
-        aSwitchButton  = (Switch) findViewById(R.id.switch_batch);
+        aSwitchButton  =  findViewById(R.id.switch_batch);
         aSwitchButton.setOnCheckedChangeListener(((CompoundButton compoundButton, boolean isChecked)-> {
                 if(isChecked){
                     ShowToast("打开此开关后，您可批量修改姓名、事由、日期, 但不可修改金额数据！",Color.RED);
                     et_cost_money.setEnabled(false);
                     buttonInOut.setEnabled(false);
+                    et_cost_memo.setEnabled(false);
 
                     if (!buttonInOut.getText().toString().equals(CurdatainOut))
                         buttonInOut.setText(CurdatainOut);
+                    if (!et_cost_memo.getText().toString().equals(CurrentMemo))
+                        et_cost_memo.setText(CurrentMemo);
                     GradientDrawable gdOne = (GradientDrawable) buttonInOut.getBackground(); // get drabable
                     if (CurdatainOut.equals("送礼")) {
                         gdOne.setColor(Color.GREEN);
@@ -82,10 +88,13 @@ public class Edit_cost extends AppCompatActivity {
                         gdOne.setColor(Color.RED);
                         et_cost_money.setTextColor(Color.RED);
                     }
+                    aSwitchButton.setThumbTintList(ColorStateList.valueOf(Color.GREEN));
                 }
                 else  {
                     et_cost_money.setEnabled(true);
                     buttonInOut.setEnabled(true);
+                    et_cost_memo.setEnabled(true);
+                    aSwitchButton.setThumbTintList(ColorStateList.valueOf(Color.LTGRAY));
                 }
             }
         ));
@@ -163,6 +172,7 @@ public class Edit_cost extends AppCompatActivity {
         et_cost_money = findViewById(R.id.et_cost_money);
         dp_cost_date = findViewById(R.id.dp_cost_date);
         buttonInOut = findViewById(R.id.buttonInOut);
+        et_cost_memo = findViewById(R.id.et_cost_memo);
         Intent intent = getIntent();
 
         CurrentId = intent.getIntExtra("CurrentId", -1);
@@ -171,11 +181,13 @@ public class Edit_cost extends AppCompatActivity {
         CurrentMoney = intent.getStringExtra("CurrentMoney");
         CurrentDate = intent.getStringExtra("CurrentDate");
         CurdatainOut = intent.getStringExtra("datainOut");
+        CurrentMemo = intent.getStringExtra("CurrentMemo");
         if (CurrentId >= 0) {         //有选中， 修改记录
             et_cost_title.setText(CurdataName);
             et_cost_remark.setText(CurrentRemark);
             dp_cost_date.setText(CurrentDate);  //日期
             et_cost_money.setText(CurrentMoney);
+            et_cost_memo.setText(CurrentMemo);
 
         }
 
@@ -191,7 +203,7 @@ public class Edit_cost extends AppCompatActivity {
             et_cost_money.setTextColor(Color.GREEN);
         }
 
-        final MyCalendarView calendarView = (MyCalendarView) findViewById(R.id.calendarView);
+        final MyCalendarView calendarView = findViewById(R.id.calendarView);
         calendarView.setcurrentselectDate(CurrentDate.substring(0, 10));     //10个字符，日期 ;
         calendarView.setOnClickListener((View v)->
                 ShowToast("Button was clicked", Color.BLUE)) ;
@@ -259,6 +271,7 @@ public class Edit_cost extends AppCompatActivity {
         String new_remarkStr = et_cost_remark.getText().toString().trim();
         String new_inoutStr = buttonInOut.getText().toString().trim();
         String new_dateStr = dp_cost_date.getText().toString().trim();
+        String new_memoStr = et_cost_memo.getText().toString().trim();
 
         //批量修改记录开关标志
         boolean isBatchFlag = aSwitchButton.isChecked();
@@ -270,14 +283,17 @@ public class Edit_cost extends AppCompatActivity {
             return;
         }
         // 没有修改任何数据， 直接返回 上一个界面
-        if(new_titleStr.equals(CurdataName) &&new_moneyStr.equals(CurrentMoney) && new_remarkStr.equals(CurrentRemark) && new_inoutStr.equals(CurdatainOut) && new_dateStr.equals(CurrentDate))
+        if(new_titleStr.equals(CurdataName) &&new_moneyStr.equals(CurrentMoney)
+                && new_remarkStr.equals(CurrentRemark) && new_inoutStr.equals(CurdatainOut)
+                && new_dateStr.equals(CurrentDate) && new_memoStr.equals(CurrentMemo))
             isNoChangeFlag = true ;
         else if((isBatchFlag) && new_titleStr.equals(CurdataName)  && new_remarkStr.equals(CurrentRemark) &&  new_dateStr.equals(CurrentDate))
             isNoChangeFlag = true ; // 批量修改，  只可以修改姓名，事由，日期三类信息，
 
         if (isNoChangeFlag) {
             ShowToast("您没有修改任何信息!", Color.RED) ;
-            return; // 没有修改数据 ，直接返回
+            finish();// 没有修改数据 ，直接返回
+            return;
         }
 
         int  m_result;
@@ -287,6 +303,7 @@ public class Edit_cost extends AppCompatActivity {
         intent.putExtra("CurrentRemark", new_remarkStr);
         intent.putExtra("CurrentDate", new_dateStr);
         intent.putExtra("datainOut", new_inoutStr);
+        intent.putExtra("Memo", new_memoStr);
         //批量开关没打开 ,  修改单条记录数据
         if (!isBatchFlag) {
             //修改单条记录,单条记录修改, 姓名，事由，日期没有改动的情况下，直接单条修改即可
@@ -296,6 +313,7 @@ public class Edit_cost extends AppCompatActivity {
             values.put("Money", new_moneyStr);
             values.put("Date", new_dateStr);
             values.put("InOut", new_inoutStr);
+            values.put("Memo", new_memoStr);
             SQLiteDatabase db = helper.getWritableDatabase();
             account = db.update("account", values, "_id=" + CurrentId, null);
             db.close();
@@ -326,7 +344,6 @@ public class Edit_cost extends AppCompatActivity {
             } else {  //取消批量修改数据
                 return;
             }
-
         }
         setResult(m_result, intent);  //  单条记录修改 or 批量修改数据， 传参数出去
 

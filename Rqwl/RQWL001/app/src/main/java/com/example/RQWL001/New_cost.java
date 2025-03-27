@@ -31,8 +31,9 @@ import java.util.Locale;
 public class New_cost extends AppCompatActivity {
     private DBHelper helper;
     private EditText[] et_cost_title;
-    private EditText[] et_cost_money;
     private EditText et_cost_remark;
+    private EditText[] et_cost_money;
+    private EditText[] et_cost_memo;
     //    private DatePicker dp_cost_date;
     private Button buttonInOut;
 
@@ -56,7 +57,7 @@ public class New_cost extends AppCompatActivity {
         findViews();  //准备姓名提示
         initView();
 
-        MyCalendarView calendarView = (MyCalendarView) findViewById(R.id.calendarView);
+        MyCalendarView calendarView =  findViewById(R.id.calendarView);
         calendarView.setClickDataListener((int year, int month, int day)-> {
 //                String date = String.format(Locale.CHINA, "%04d-%02d-%02d", year, month, day);
 //                Toast toast = Toast.makeText(this, date, Toast.LENGTH_SHORT);
@@ -143,18 +144,25 @@ public class New_cost extends AppCompatActivity {
         if (helper == null)
             helper = new DBHelper(New_cost.this);
         et_cost_title = new EditText[]{
-                (EditText) findViewById(R.id.et_cost_title),
-                (EditText) findViewById(R.id.et_cost_title2),
-                (EditText) findViewById(R.id.et_cost_title3),
-                (EditText) findViewById(R.id.et_cost_title4),
-                (EditText) findViewById(R.id.et_cost_title5)
+                 findViewById(R.id.et_cost_title),
+                 findViewById(R.id.et_cost_title2),
+                 findViewById(R.id.et_cost_title3),
+                 findViewById(R.id.et_cost_title4),
+                 findViewById(R.id.et_cost_title5)
         };
         et_cost_money = new EditText[]{
-                (EditText) findViewById(R.id.et_cost_money),
-                (EditText) findViewById(R.id.et_cost_money2),
-                (EditText) findViewById(R.id.et_cost_money3),
-                (EditText) findViewById(R.id.et_cost_money4),
-                (EditText) findViewById(R.id.et_cost_money5)
+                 findViewById(R.id.et_cost_money),
+                 findViewById(R.id.et_cost_money2),
+                 findViewById(R.id.et_cost_money3),
+                 findViewById(R.id.et_cost_money4),
+                 findViewById(R.id.et_cost_money5)
+        };
+        et_cost_memo = new EditText[]{
+                 findViewById(R.id.et_cost_memo),
+                 findViewById(R.id.et_cost_memo2),
+                 findViewById(R.id.et_cost_memo3),
+                 findViewById(R.id.et_cost_memo4),
+                 findViewById(R.id.et_cost_memo5)
         };
 
         et_cost_remark = findViewById(R.id.et_cost_remark);
@@ -209,9 +217,10 @@ public class New_cost extends AppCompatActivity {
         String moneyStr ;
         String remarkStr = et_cost_remark.getText().toString().trim();
         String inoutStr = buttonInOut.getText().toString().trim();
+        String momoStr;
         String dateStr;
 
-        MyCalendarView calendarView = (MyCalendarView) findViewById(R.id.calendarView);
+        MyCalendarView calendarView = findViewById(R.id.calendarView);
         dateStr = calendarView.getcurrentselectDate() + " " + calendarView.getcurrentsellunarDate();
 
 //        calendarView.setWindowAnimations(R.style.AnimBottom);
@@ -236,11 +245,13 @@ public class New_cost extends AppCompatActivity {
                 ContentValues values = new ContentValues();
                 titleStr = et_cost_title[i].getText().toString().trim();
                 moneyStr = et_cost_money[i].getText().toString().trim();
+                momoStr  = et_cost_memo[i].getText().toString().trim();
                 values.put("Title", titleStr);
                 values.put("Remark", remarkStr);
                 values.put("Money", moneyStr);
                 values.put("Date", dateStr);
                 values.put("InOut", inoutStr);
+                values.put("Memo", momoStr);
                 if ((!"".equals(moneyStr)) & (!"".equals(titleStr))) {
                     account = db.insert("account", null, values);
                     if (account > 0) iNumber = iNumber + 1;

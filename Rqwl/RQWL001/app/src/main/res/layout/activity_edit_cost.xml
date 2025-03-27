@@ -142,21 +142,51 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/relativeLayout45"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <EditText
+            android:id="@+id/editTextTextMemo"
+            android:layout_width="56dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="10dp"
+            android:autofillHints=""
+            android:ems="10"
+            android:enabled="false"
+            android:inputType="number|date"
+            android:text="@string/备注"
+            android:textColor="@android:color/black" />
+
+        <EditText
+            android:id="@+id/et_cost_memo"
+            android:layout_width="360dp"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/editTextTextMemo"
+            android:autofillHints=""
+            android:inputType="none"             />
+
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/relativeLayout5"
         android:layout_width="match_parent"
         android:layout_height="50dp">
 
         <Switch
             android:id="@+id/switch_batch"
-            android:layout_width="120dp"
-            android:layout_height="35dp"
-            android:layout_marginStart="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="30dp"
             android:layout_marginTop="0dp"
+            android:scaleX="1.3"
+            android:scaleY="1.3"
             android:showText="true"
             android:text="@string/批量修改"
             android:textOff="@string/关"
             android:textOn="@string/开"
-            android:textSize="16sp"
+            android:textSize="15sp"
             tools:ignore="UseSwitchCompatOrMaterialXml" />
 
         <Button

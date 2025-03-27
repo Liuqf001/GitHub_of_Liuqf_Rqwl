@@ -20,7 +20,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 "Remark varchar(20)," +//Remark
                 "Date varchar(20)," +//Date
                 "Money varchar(20)," +//Money
-                "InOut vaechar(20))";//in  or out
+                "InOut varchar(20),"+//in  or out
+                "Memo vaechar(20))";//in  or out
         String sqlPerson = "create table accountPerson(_id integer primary key autoincrement," +//主键
                 "Title varchar(20)," +//Title
                 "Remark varchar(20)," +//Remark

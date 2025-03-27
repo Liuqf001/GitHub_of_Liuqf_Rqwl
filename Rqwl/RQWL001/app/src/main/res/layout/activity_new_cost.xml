@@ -23,7 +23,7 @@
         android:textSize="20sp"
         tools:ignore="UsingOnClickInXml" />
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/relativeLayout1"
         android:layout_width="match_parent"
         android:layout_height="40dp"
@@ -31,134 +31,247 @@
 
         <AutoCompleteTextView
             android:id="@+id/et_cost_title"
-            android:layout_width="150dp"
+            android:layout_width="110dp"
             android:layout_height="40dp"
             android:layout_gravity="start"
             android:layout_marginStart="10dp"
             android:completionThreshold="0"
-            android:hint="@string/xingming" />
+            android:hint="@string/xingming"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@+id/et_cost_money"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/et_cost_money"
-            android:layout_width="150dp"
+            android:layout_width="80dp"
             android:layout_height="40dp"
-            android:layout_alignParentEnd="true"
-            android:layout_gravity="end"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:autofillHints=""
             android:hint="@string/lijin"
             android:inputType="number|numberDecimal"
             android:textColor="#ffbd27"
-            android:textSize="18sp"
-            android:autofillHints="" />
-    </RelativeLayout>
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/et_cost_memo"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/et_cost_title"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <RelativeLayout
+        <AutoCompleteTextView
+            android:id="@+id/et_cost_memo"
+            android:layout_width="160dp"
+            android:layout_height="40dp"
+            android:layout_gravity="start"
+            android:completionThreshold="0"
+            android:hint="@string/备注"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@+id/et_cost_money"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/relativeLayout2"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_gravity="top|start">
+        android:layout_gravity="start">
 
         <AutoCompleteTextView
             android:id="@+id/et_cost_title2"
-            android:layout_width="150dp"
+            android:layout_width="110dp"
             android:layout_height="40dp"
             android:layout_gravity="start"
             android:layout_marginStart="10dp"
             android:completionThreshold="0"
-            android:hint="@string/姓名2" />
+            android:hint="@string/姓名2"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@+id/et_cost_money2"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/et_cost_money2"
-            android:layout_width="150dp"
+            android:layout_width="80dp"
             android:layout_height="40dp"
-            android:layout_alignParentEnd="true"
-            android:layout_gravity="end"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:autofillHints=""
             android:hint="@string/礼金2"
             android:inputType="number|numberDecimal"
             android:textColor="#ffbd27"
-            android:autofillHints="" />
-    </RelativeLayout>
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/et_cost_memo2"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/et_cost_title2"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <RelativeLayout
+        <AutoCompleteTextView
+            android:id="@+id/et_cost_memo2"
+            android:layout_width="160dp"
+            android:layout_height="40dp"
+            android:layout_gravity="start"
+            android:completionThreshold="0"
+            android:hint="@string/备注"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@+id/et_cost_money2"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/relativeLayout3"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_gravity="top|start">
+        android:layout_gravity="start">
 
         <AutoCompleteTextView
             android:id="@+id/et_cost_title3"
-            android:layout_width="150dp"
+            android:layout_width="110dp"
             android:layout_height="40dp"
             android:layout_gravity="start"
             android:layout_marginStart="10dp"
             android:completionThreshold="0"
-            android:hint="@string/姓名3" />
+            android:hint="@string/姓名3"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@+id/et_cost_money3"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/et_cost_money3"
-            android:layout_width="150dp"
+            android:layout_width="80dp"
             android:layout_height="40dp"
-            android:layout_alignParentEnd="true"
-            android:layout_gravity="end"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:autofillHints=""
             android:hint="@string/礼金3"
             android:inputType="number|numberDecimal"
             android:textColor="#ffbd27"
-            android:autofillHints="" />
-    </RelativeLayout>
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/et_cost_memo3"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/et_cost_title3"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <RelativeLayout
+        <AutoCompleteTextView
+            android:id="@+id/et_cost_memo3"
+            android:layout_width="160dp"
+            android:layout_height="40dp"
+            android:layout_gravity="start"
+            android:completionThreshold="0"
+            android:hint="@string/备注"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@+id/et_cost_money3"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/relativeLayout4"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_gravity="top|start">
+        android:layout_gravity="start">
 
         <AutoCompleteTextView
             android:id="@+id/et_cost_title4"
-            android:layout_width="150dp"
+            android:layout_width="110dp"
             android:layout_height="40dp"
             android:layout_gravity="start"
             android:layout_marginStart="10dp"
             android:completionThreshold="0"
-            android:hint="@string/姓名4" />
+            android:hint="@string/姓名4"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@+id/et_cost_money4"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/et_cost_money4"
-            android:layout_width="150dp"
+            android:layout_width="80dp"
             android:layout_height="40dp"
-            android:layout_alignParentEnd="true"
-            android:layout_gravity="end"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:autofillHints=""
             android:hint="@string/礼金4"
             android:inputType="number|numberDecimal"
             android:textColor="#ffbd27"
-            android:autofillHints="" />
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/et_cost_memo4"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/et_cost_title4"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </RelativeLayout>
+        <AutoCompleteTextView
+            android:id="@+id/et_cost_memo4"
+            android:layout_width="160dp"
+            android:layout_height="40dp"
+            android:layout_gravity="start"
+            android:completionThreshold="0"
+            android:hint="@string/备注"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@+id/et_cost_money4"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <RelativeLayout
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/relativeLayout5"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_gravity="top|start">
+        android:layout_gravity="start">
 
         <AutoCompleteTextView
             android:id="@+id/et_cost_title5"
-            android:layout_width="150dp"
+            android:layout_width="110dp"
             android:layout_height="40dp"
             android:layout_gravity="start"
             android:layout_marginStart="10dp"
             android:completionThreshold="0"
-            android:hint="@string/姓名5" />
+            android:hint="@string/姓名5"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@+id/et_cost_money5"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/et_cost_money5"
-            android:layout_width="150dp"
+            android:layout_width="80dp"
             android:layout_height="40dp"
-            android:layout_alignParentEnd="true"
-            android:layout_gravity="end"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:autofillHints=""
             android:hint="@string/礼金5"
             android:inputType="number|numberDecimal"
             android:textColor="#ffbd27"
-            android:autofillHints="" />
-    </RelativeLayout>
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/et_cost_memo5"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/et_cost_title5"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <AutoCompleteTextView
+            android:id="@+id/et_cost_memo5"
+            android:layout_width="160dp"
+            android:layout_height="40dp"
+            android:layout_gravity="start"
+            android:completionThreshold="0"
+            android:hint="@string/备注"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@+id/et_cost_money5"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/relativeLayout6"
@@ -173,12 +286,12 @@
             android:layout_marginStart="10dp"
             android:completionThreshold="0"
             android:hint="@string/事由"
-            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.60" />
+            app:layout_constraintWidth_percent="0.60"
+            android:textSize="16sp" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/relativeLayout61"

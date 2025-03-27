@@ -7,6 +7,7 @@ public class CostList {
     private String Date;
     private String Money;
     private String InOut;
+    private String Memo;
 
     public String getMoney() {
         return Money;
@@ -54,6 +55,14 @@ public class CostList {
 
     public void setInOut(String remark) {
         InOut = remark;
+    }
+
+    public String getMemo() {
+        return Memo;
+    }
+
+    public void setMemo(String memo) {
+        Memo = memo;
     }
 
 }

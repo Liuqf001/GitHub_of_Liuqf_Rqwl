@@ -471,6 +471,7 @@ public class MainActivity extends AppCompatActivity {
                 clist.setDate(cursor.getString(cursor.getColumnIndex("Date")));
                 clist.setMoney(cursor.getString(cursor.getColumnIndex("Money")));
                 clist.setInOut(cursor.getString(cursor.getColumnIndex("InOut")));
+                clist.setMemo(cursor.getString(cursor.getColumnIndex("Memo")));
                 list.add(clist);
 /*
                 if (CurWorkmodeFlag == 1) //第二页 ，查询单个人的全部记录
@@ -805,6 +806,7 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("CurrentDate", list.get(CurrentIndex).getDate());
             intent.putExtra("CurrentMoney", list.get(CurrentIndex).getMoney());
             intent.putExtra("datainOut", list.get(CurrentIndex).getInOut());
+            intent.putExtra("CurrentMemo", list.get(CurrentIndex).getMemo());
 
             if(launcherEdit!=null) {
                 launcherEdit.launch(intent);
@@ -1097,7 +1099,8 @@ public class MainActivity extends AppCompatActivity {
                 oneLineStr = oneLineStr + cursor.getString(cursor.getColumnIndex("Remark")) + CsvTabChar;
                 oneLineStr = oneLineStr + cursor.getString(cursor.getColumnIndex("Date")) + CsvTabChar;
                 oneLineStr = oneLineStr + cursor.getString(cursor.getColumnIndex("Money")) + CsvTabChar;
-                oneLineStr = oneLineStr + cursor.getString(cursor.getColumnIndex("InOut"));
+                oneLineStr = oneLineStr + cursor.getString(cursor.getColumnIndex("InOut")) + CsvTabChar;
+                oneLineStr = oneLineStr + cursor.getString(cursor.getColumnIndex("Memo"));
                 if (fw == null) {
                     fw = new FileWriter(saveFile, false);  // 有记录才重写备份数据文件。 覆盖模式写数据
                     bfw = new BufferedWriter(fw);
@@ -1193,9 +1196,11 @@ public class MainActivity extends AppCompatActivity {
                 fr = new FileReader(saveFile);
                 bfr = new BufferedReader(fr);
                 String line;
+                String initMemo = "";
+                long account ;
                 while ((line = (bfr).readLine()) != null) {
                     String[] datas = line.split(CsvTabChar);   // Tab 键分割 csv文件   //                    String[] datas = line.split(",");
-                    if (datas.length != 6) {
+                    if (datas.length < 6) {
                         return;
                     }
 //                    values.put("_id",   datas[0]);
@@ -1204,17 +1209,17 @@ public class MainActivity extends AppCompatActivity {
                     values.put("Date", datas[3]);
                     values.put("Money", datas[4]);
                     values.put("InOut", datas[5]);
-                    //                    long account =
-                    db.insert("account", null, values);
-                    //                    account = account;
-                    recordCount++;
+                    if(datas.length > 6) initMemo = datas[6];  //也许原备份数据没有 memo字段
+                    values.put("Memo", initMemo);
+                    account = db.insert("account", null, values);
+                    if(account>0)   recordCount++;
                 }
                 db.close();
             } catch (IOException e) {
                 e.printStackTrace();
                 return;
             }
-            ShowToast(" 导入数据成功，共" + recordCount + "条！ ", Color.BLUE);
+            ShowToast(" 共成功导入数据 " + recordCount + " 条！ ", Color.BLUE);
         }
     }
 
