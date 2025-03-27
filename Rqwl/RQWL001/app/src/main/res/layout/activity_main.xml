@@ -137,7 +137,7 @@
             android:layout_height="35dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.15"
+            app:layout_constraintWidth_percent="0.13"
             tools:context=".MainActivity">
 
             <ImageButton
@@ -145,6 +145,7 @@
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:background="#00FF0000"
+                android:contentDescription="@string/shouli"
                 android:onClick="onThings"
                 android:scaleType="centerInside"
                 android:src="@drawable/btn_thing"
@@ -154,7 +155,6 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:contentDescription="@string/shouli"
                 tools:ignore="UsingOnClickInXml" />
 
             <ImageButton
@@ -162,16 +162,14 @@
                 android:layout_width="33dp"
                 android:layout_height="33dp"
                 android:background="#00FF0000"
+                android:contentDescription="@string/导出数据"
                 android:onClick="importExportDataFromCsv"
                 android:scaleType="centerInside"
                 android:src="@drawable/btn_export"
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:contentDescription="@string/导出数据"
                 tools:ignore="UsingOnClickInXml" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -181,7 +179,7 @@
             android:layout_height="35dp"
             app:layout_constraintStart_toEndOf="@id/relativeLayout21"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.28"
+            app:layout_constraintWidth_percent="0.3"
             tools:context=".MainActivity">
 
 
@@ -196,6 +194,7 @@
                 android:inputType="none"
                 android:onClick="onThings"
                 android:textColor="@android:color/darker_gray"
+                android:textSize="14sp"
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -220,24 +219,24 @@
             android:layout_height="35dp"
             app:layout_constraintStart_toEndOf="@id/relativeLayout223"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.28"
+            app:layout_constraintWidth_percent="0.3"
             tools:context=".MainActivity">
 
             <EditText
                 android:id="@+id/mtotal"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
+                android:autofillHints=""
                 android:background="#FBFAFA"
                 android:editable="false"
-                android:gravity="end"
                 android:inputType="none"
                 android:textColor="@android:color/darker_gray"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:autofillHints=""
                 tools:ignore="Deprecated" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -247,7 +246,7 @@
             android:layout_height="35dp"
             app:layout_constraintStart_toEndOf="@id/relativeLayout23"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.15"
+            app:layout_constraintWidth_percent="0.13"
             tools:context=".MainActivity">
 
             <ImageButton
@@ -255,17 +254,15 @@
                 android:layout_width="33dp"
                 android:layout_height="33dp"
                 android:background="#00FF0000"
+                android:contentDescription="@string/_姓名"
                 android:onClick="onContacts"
                 android:scaleType="centerInside"
                 android:src="@drawable/btn_contacts"
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="UsingOnClickInXml"
-                android:contentDescription="@string/_姓名" />
+                tools:ignore="UsingOnClickInXml" />
 
             <ImageButton
                 android:id="@+id/retFlag"
@@ -273,6 +270,7 @@
                 android:layout_height="35dp"
                 android:layout_marginStart="190dp"
                 android:background="#00FF0000"
+                android:contentDescription="@string/returnflag"
                 android:onClick="retOnFlag"
                 android:scaleType="centerInside"
                 android:src="@drawable/btn_return"
@@ -281,8 +279,7 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="UsingOnClickInXml"
-                android:contentDescription="@string/returnflag" />
+                tools:ignore="UsingOnClickInXml" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

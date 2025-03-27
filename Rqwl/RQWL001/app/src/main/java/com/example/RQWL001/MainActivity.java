@@ -66,7 +66,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String VersionString = " Version: 2025.03.26 ";
+    private static final String VersionString = " Version: 2025.03.27 ";
     int CurrentIndex = -1;
     int m_total_Num = 0;  //显示总收支差额
     //    int m_appStart_reFlag = 1 ; //app start flag: 1 ;   0:started
@@ -509,7 +509,9 @@ public class MainActivity extends AppCompatActivity {
                 m_Tongji_Count++;
             }
         }
-        String charShow = "" + m_Tongji_Count + "/" + m_record_Count + "笔";
+        String charShow = "" + m_Tongji_Count + "行(" + m_record_Count + "笔)";   //笔";
+        if(m_Tongji_Count == 0)
+            charShow = ""  + m_record_Count + "笔";   //笔";; //人名or事件统计是有效   Page two
         Men_total.setText(charShow); //显示总条目数量
         if (m_total_Num >= 0) {
             if (m_total_Num == 0) {
