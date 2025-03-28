@@ -19,6 +19,7 @@
         android:background="@drawable/bg_rectangle"
         android:ellipsize="marquee"
         android:onClick="InOut"
+        android:shadowColor="@android:color/holo_green_light"
         android:text="@string/shouli"
         android:textSize="20sp"
         tools:ignore="UsingOnClickInXml" />

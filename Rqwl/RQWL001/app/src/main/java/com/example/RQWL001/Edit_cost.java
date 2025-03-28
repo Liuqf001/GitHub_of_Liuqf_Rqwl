@@ -45,8 +45,8 @@ public class Edit_cost extends AppCompatActivity {
     private EditText dp_cost_date;
     private Button buttonInOut;
     int CurrentId;   //页面初始化时，传入六个的参数
-    String CurdataName;
-    String CurdatainOut;
+    String CurrentName;
+    String CurrentInOut;
     String CurrentRemark;
     String CurrentDate;
     String CurrentMoney;
@@ -76,12 +76,12 @@ public class Edit_cost extends AppCompatActivity {
                     buttonInOut.setEnabled(false);
                     et_cost_memo.setEnabled(false);
 
-                    if (!buttonInOut.getText().toString().equals(CurdatainOut))
-                        buttonInOut.setText(CurdatainOut);
+                    if (!buttonInOut.getText().toString().equals(CurrentInOut))
+                        buttonInOut.setText(CurrentInOut);
                     if (!et_cost_memo.getText().toString().equals(CurrentMemo))
                         et_cost_memo.setText(CurrentMemo);
-                    GradientDrawable gdOne = (GradientDrawable) buttonInOut.getBackground(); // get drabable
-                    if (CurdatainOut.equals("送礼")) {
+                    GradientDrawable gdOne = (GradientDrawable) buttonInOut.getBackground();
+                    if (CurrentInOut.equals("送礼")) {
                         gdOne.setColor(Color.GREEN);
                         et_cost_money.setTextColor(Color.GREEN);
                     } else {
@@ -135,9 +135,9 @@ public class Edit_cost extends AppCompatActivity {
         curName = new ArrayList<>();
         if (helper == null) helper = new DBHelper(Edit_cost.this);
         SQLiteDatabase db = helper.getReadableDatabase();
-        String sqlwhere = "select distinct Title from account "; //Title like ?" ;
+        String sqlString = "select distinct Title from account "; //Title like ?" ;
         Cursor cursor;
-        cursor = db.rawQuery(sqlwhere, null);
+        cursor = db.rawQuery(sqlString, null);
         while (cursor.moveToNext()) {   // find all name in database
             curName.add(cursor.getString(cursor.getColumnIndex("Title")));
         }
@@ -150,8 +150,8 @@ public class Edit_cost extends AppCompatActivity {
 
         curThing = new ArrayList<>();
         db = helper.getReadableDatabase();
-        sqlwhere = "select distinct Remark from account ";
-        cursor = db.rawQuery(sqlwhere, null);
+        sqlString = "select distinct Remark from account ";
+        cursor = db.rawQuery(sqlString, null);
         while (cursor.moveToNext()) {   // find all remark in database
             curThing.add(cursor.getString(cursor.getColumnIndex("Remark")));
         }
@@ -176,14 +176,14 @@ public class Edit_cost extends AppCompatActivity {
         Intent intent = getIntent();
 
         CurrentId = intent.getIntExtra("CurrentId", -1);
-        CurdataName = intent.getStringExtra("CurrentName");
+        CurrentName = intent.getStringExtra("CurrentName");
         CurrentRemark = intent.getStringExtra("CurrentRemark");
         CurrentMoney = intent.getStringExtra("CurrentMoney");
         CurrentDate = intent.getStringExtra("CurrentDate");
-        CurdatainOut = intent.getStringExtra("datainOut");
+        CurrentInOut = intent.getStringExtra("CurrentInOut");
         CurrentMemo = intent.getStringExtra("CurrentMemo");
         if (CurrentId >= 0) {         //有选中， 修改记录
-            et_cost_title.setText(CurdataName);
+            et_cost_title.setText(CurrentName);
             et_cost_remark.setText(CurrentRemark);
             dp_cost_date.setText(CurrentDate);  //日期
             et_cost_money.setText(CurrentMoney);
@@ -191,14 +191,14 @@ public class Edit_cost extends AppCompatActivity {
 
         }
 
-        if (Objects.equals(CurdatainOut,"收礼")) {
+        if (Objects.equals(CurrentInOut,"收礼")) {
             buttonInOut.setText("收礼");
-            GradientDrawable gdOne = (GradientDrawable) buttonInOut.getBackground();// get drabable
+            GradientDrawable gdOne = (GradientDrawable) buttonInOut.getBackground();
             gdOne.setColor(Color.RED);      //change color
             et_cost_money.setTextColor(Color.RED);
         } else {
             buttonInOut.setText("送礼");
-            GradientDrawable gdOne = (GradientDrawable) buttonInOut.getBackground();// get drabable
+            GradientDrawable gdOne = (GradientDrawable) buttonInOut.getBackground();
             gdOne.setColor(Color.GREEN);//change color
             et_cost_money.setTextColor(Color.GREEN);
         }
@@ -219,7 +219,7 @@ public class Edit_cost extends AppCompatActivity {
     }
 
     public void InOut(View view) {
-        GradientDrawable gdOne = (GradientDrawable) buttonInOut.getBackground(); // get drabable
+        GradientDrawable gdOne = (GradientDrawable) buttonInOut.getBackground();
         if (buttonInOut.getText().toString().equals("收礼")) {
             buttonInOut.setText("送礼");
             gdOne.setColor(Color.GREEN);
@@ -245,7 +245,7 @@ public class Edit_cost extends AppCompatActivity {
         switch (iModeFlag) {
             case 1:   //同一个人，批量修改姓名
                 values.put("Title", titleStr);
-                account = db.update("account", values, "Title=?", new String[]{CurdataName});
+                account = db.update("account", values, "Title=?", new String[]{CurrentName});
                 if (account > 0)
                     ShowToast("姓名信息批量修改成功!", Color.BLUE) ;
                 break;
@@ -283,11 +283,11 @@ public class Edit_cost extends AppCompatActivity {
             return;
         }
         // 没有修改任何数据， 直接返回 上一个界面
-        if(new_titleStr.equals(CurdataName) &&new_moneyStr.equals(CurrentMoney)
-                && new_remarkStr.equals(CurrentRemark) && new_inoutStr.equals(CurdatainOut)
+        if(new_titleStr.equals(CurrentName) &&new_moneyStr.equals(CurrentMoney)
+                && new_remarkStr.equals(CurrentRemark) && new_inoutStr.equals(CurrentInOut)
                 && new_dateStr.equals(CurrentDate) && new_memoStr.equals(CurrentMemo))
             isNoChangeFlag = true ;
-        else if((isBatchFlag) && new_titleStr.equals(CurdataName)  && new_remarkStr.equals(CurrentRemark) &&  new_dateStr.equals(CurrentDate))
+        else if((isBatchFlag) && new_titleStr.equals(CurrentName)  && new_remarkStr.equals(CurrentRemark) &&  new_dateStr.equals(CurrentDate))
             isNoChangeFlag = true ; // 批量修改，  只可以修改姓名，事由，日期三类信息，
 
         if (isNoChangeFlag) {
@@ -302,8 +302,8 @@ public class Edit_cost extends AppCompatActivity {
         intent.putExtra("CurrentName", new_titleStr);  //传参数出去， bring data to father view 带出数据
         intent.putExtra("CurrentRemark", new_remarkStr);
         intent.putExtra("CurrentDate", new_dateStr);
-        intent.putExtra("datainOut", new_inoutStr);
-        intent.putExtra("Memo", new_memoStr);
+        intent.putExtra("CurrentInOut", new_inoutStr);
+        intent.putExtra("CurrentMemo", new_memoStr);
         //批量开关没打开 ,  修改单条记录数据
         if (!isBatchFlag) {
             //修改单条记录,单条记录修改, 姓名，事由，日期没有改动的情况下，直接单条修改即可
@@ -328,16 +328,16 @@ public class Edit_cost extends AppCompatActivity {
         } else {
             //批量开关已经打开 // 用户修改了 三个数据之一  批量修改姓名，事由，日期信息，有修改时才批量处理
             String tmpAlertInfo = "您确认要批量修改如下信息？\n\n";
-            if (!new_titleStr.equals(CurdataName))
-                tmpAlertInfo = tmpAlertInfo + " 姓名: " + CurdataName + "->" + new_titleStr + "\n";
+            if (!new_titleStr.equals(CurrentName))
+                tmpAlertInfo = tmpAlertInfo + " 姓名: " + CurrentName + "->" + new_titleStr + "\n";
             if (!new_remarkStr.equals(CurrentRemark))
                 tmpAlertInfo = tmpAlertInfo + " 事由: " + CurrentRemark + "->" + new_remarkStr + "\n";
             if (!new_dateStr.equals(CurrentDate))
                 tmpAlertInfo = tmpAlertInfo + " 事件日期: " + CurrentDate.substring(0, 10) + "->" + new_dateStr.substring(0, 10);
 
-            boolean isOk = ConfirmDialog.showComfirmDialog(this, "重要提示", tmpAlertInfo);
+            boolean isOk = ConfirmDialog.showConfirmDialog(this, "重要提示", tmpAlertInfo);
             if (isOk) {  //确认批量修改数据
-                if (!new_titleStr.equals(CurdataName)) batchUpdate(1);
+                if (!new_titleStr.equals(CurrentName)) batchUpdate(1);
                 if (!new_remarkStr.equals(CurrentRemark)) batchUpdate(2);
                 if (!new_dateStr.equals(CurrentDate)) batchUpdate(3);
                 m_result = RESULT_OK ;//批量修改数据成功,传参数出去
@@ -364,8 +364,8 @@ public class Edit_cost extends AppCompatActivity {
         dialog02.setPositiveButton("确定", ((DialogInterface dialog, int whichButton)-> {
             SQLiteDatabase db = helper.getReadableDatabase();
             //delete one record
-            String sqlwhere = "_id=" + CurrentId;
-            db.delete("account", sqlwhere, null);
+            String sqlString = "_id=" + CurrentId;
+            db.delete("account", sqlString, null);
             db.close();
             ShowToast(" 该条记录被成功删除! ", Color.RED);
             //删除记录后, 返回前一页

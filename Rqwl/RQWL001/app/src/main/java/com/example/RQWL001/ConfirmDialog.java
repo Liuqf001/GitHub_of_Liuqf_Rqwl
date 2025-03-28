@@ -16,7 +16,7 @@ public class ConfirmDialog {
     public static Handler mHandler;
 //    public Context context;
 
-    public static boolean showComfirmDialog(Activity context, String title,String msg) {
+    public static boolean showConfirmDialog(Activity context, String title,String msg) {
         mHandler = new MyHandler();
         return new ConfirmDialog(context, title,msg).getResult() == 1;
     }

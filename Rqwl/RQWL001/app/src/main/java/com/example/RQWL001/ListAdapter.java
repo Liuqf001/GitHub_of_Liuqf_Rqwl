@@ -46,10 +46,10 @@ public class ListAdapter extends BaseAdapter {
             convertView = mLayoutInflater.inflate(R.layout.list_item,  parent, false);
             //取出数据赋值
             //        CostList item = mList.get(position);
-            viewHolder.tv_title = (TextView)convertView.findViewById(R.id.tv_title);
-            viewHolder.tv_remark = (TextView)convertView.findViewById(R.id.tv_remark);
-            viewHolder.tv_date = (TextView)convertView.findViewById(R.id.tv_date);
-            viewHolder.tv_money = (TextView)convertView.findViewById(R.id.tv_money);
+            viewHolder.tv_title = convertView.findViewById(R.id.tv_title);
+            viewHolder.tv_remark = convertView.findViewById(R.id.tv_remark);
+            viewHolder.tv_date = convertView.findViewById(R.id.tv_date);
+            viewHolder.tv_money = convertView.findViewById(R.id.tv_money);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -73,7 +73,6 @@ public class ListAdapter extends BaseAdapter {
 
     }
 
-//    private List<CostList> getmList;
     //把item布局转换成ListView
     private final LayoutInflater mLayoutInflater;
 

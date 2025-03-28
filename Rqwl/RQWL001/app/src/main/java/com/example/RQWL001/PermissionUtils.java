@@ -24,19 +24,18 @@ public class PermissionUtils {
                 activity.requestPermissions(PERMISSIONS_CAMERA_AND_STORAGE, requestCode);
                 return false;
             }
-            int iloop = 1;
-            while (iloop < 10000) {
+            int intLoop = 1;
+            while (intLoop < 10000) {
                 storagePermission = activity.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
                 if (storagePermission == PackageManager.PERMISSION_GRANTED) {
                     return true;
                 }
-                iloop++;
+                intLoop++;
             }
         }
         return true;
 
     }
-
 
 }
 

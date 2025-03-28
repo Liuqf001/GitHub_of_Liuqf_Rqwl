@@ -26,7 +26,7 @@ import com.nanchen.calendarview.MyCalendarView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
+//import java.util.Locale;
 
 public class New_cost extends AppCompatActivity {
     private DBHelper helper;
@@ -37,7 +37,7 @@ public class New_cost extends AppCompatActivity {
     //    private DatePicker dp_cost_date;
     private Button buttonInOut;
 
-    String currentselectDate;
+//    String current_select_Date;
 
     ArrayAdapter<String> adapter;
     ArrayAdapter<String> adapterRe;
@@ -63,7 +63,8 @@ public class New_cost extends AppCompatActivity {
 //                Toast toast = Toast.makeText(this, date, Toast.LENGTH_SHORT);
 //                toast.setGravity(Gravity.CENTER, 0, 0);
 //                toast.show();
-            currentselectDate = String.format(Locale.CHINA, "%04d-%02d-%02d", year, month, day);
+
+//            current_select_Date = String.format(Locale.CHINA, "%04d-%02d-%02d", year, month, day);  //2025.03.28
         });
     }
 
@@ -105,9 +106,9 @@ public class New_cost extends AppCompatActivity {
         curName = new ArrayList<>();
         if (helper == null) helper = new DBHelper(New_cost.this);
         SQLiteDatabase db = helper.getReadableDatabase();
-        String sqlwhere = "select distinct Title from account "; //Title like ?" ;
+        String sqlString = "select distinct Title from account "; //Title like ?" ;
         Cursor cursor;
-        cursor = db.rawQuery(sqlwhere, null);
+        cursor = db.rawQuery(sqlString, null);
         while (cursor.moveToNext()) {   // find all name in database
             curName.add(cursor.getString(cursor.getColumnIndex("Title")));
         }
@@ -119,8 +120,8 @@ public class New_cost extends AppCompatActivity {
 
         curThing = new ArrayList<>();
         db = helper.getReadableDatabase();
-        sqlwhere = "select distinct Remark from account ";
-        cursor = db.rawQuery(sqlwhere, null);
+        sqlString = "select distinct Remark from account ";
+        cursor = db.rawQuery(sqlString, null);
         while (cursor.moveToNext()) {   // find all remark in database
             curThing.add(cursor.getString(cursor.getColumnIndex("Remark")));
         }
@@ -170,30 +171,29 @@ public class New_cost extends AppCompatActivity {
         buttonInOut = findViewById(R.id.buttonInOut);
         Intent intent = getIntent();
         String dataName = intent.getStringExtra("CurrentName");
-        String datainOut = intent.getStringExtra("datainOut");
-        if(datainOut!=null) {
-            if (datainOut.equals("收礼")) {
+        String dataInOut = intent.getStringExtra("CurrentInOut");
+        if(dataInOut!=null) {
+            int colorTemp ;
+            if (dataInOut.equals("送礼")) {
                 buttonInOut.setText("收礼");
-                GradientDrawable gdOne = (GradientDrawable) buttonInOut.getBackground();// get drabable
-                gdOne.setColor(Color.RED);      //change color
-                for (int i = 0; i < 5; i++)
-                    et_cost_money[i].setTextColor(Color.RED);
+                colorTemp = Color.RED;
             } else {
                 buttonInOut.setText("送礼");
-                GradientDrawable gdOne = (GradientDrawable) buttonInOut.getBackground();// get drabable
-                gdOne.setColor(Color.GREEN);      //change color
-                for (int i = 0; i < 5; i++)
-                    et_cost_money[i].setTextColor(Color.GREEN);
+                colorTemp = Color.GREEN;
             }
+            GradientDrawable gdOne = (GradientDrawable) buttonInOut.getBackground();
+            gdOne.setColor(colorTemp);      //change color
+            for (int i = 0; i < 5; i++)
+                et_cost_money[i].setTextColor(colorTemp);
         }
         if((dataName!=null)&& (!dataName.equals("")))
             et_cost_title[0].setText(dataName);
-//        et_cost_money.setFocusable(true);
-//        et_cost_money.setFocusableInTouchMode(true);
+            //        et_cost_money.setFocusable(true);
+            //        et_cost_money.setFocusableInTouchMode(true);
     }
 
     public void InOut(View view) {
-        GradientDrawable gdOne = (GradientDrawable) buttonInOut.getBackground();// get drabable
+        GradientDrawable gdOne = (GradientDrawable) buttonInOut.getBackground();
         if (buttonInOut.getText().toString().equals("收礼")) {
             buttonInOut.setText("送礼");
             gdOne.setColor(Color.GREEN);      //change color
@@ -206,11 +206,6 @@ public class New_cost extends AppCompatActivity {
                 et_cost_money[i].setTextColor(Color.RED);
         }
     }
-
-//    public void ondateclick(View view) {
-//        String dateStr = dp_cost_date.getYear() + "-" + (dp_cost_date.getMonth() + 1) + "-"
-//                + dp_cost_date.getDayOfMonth();
-//    }
 
     public void okButton(View view) {
         String titleStr = et_cost_title[0].getText().toString().trim();
@@ -230,7 +225,7 @@ public class New_cost extends AppCompatActivity {
         intent.putExtra("CurrentName", titleStr);  //传参数出去， bring data to father view 带出数据
         intent.putExtra("CurrentRemark", remarkStr);
         intent.putExtra("CurrentDate", dateStr);
-        intent.putExtra("datainOut", inoutStr);
+        intent.putExtra("CurrentInOut", inoutStr);
 
         for (int i = 0; i < 5; i++) {
             titleStr = et_cost_title[i].getText().toString().trim();
