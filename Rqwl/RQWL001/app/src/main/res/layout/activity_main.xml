@@ -30,7 +30,7 @@
             android:onClick="OnTitleCLick"
             android:scaleType="fitXY"
             android:visibility="visible"
-            app:srcCompat="@drawable/groundblue"
+            app:srcCompat="@drawable/ground_blue"
             android:contentDescription="@string/搜索"
             tools:ignore="UsingOnClickInXml" />
 
@@ -145,7 +145,7 @@
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:background="#00FF0000"
-                android:contentDescription="@string/shouli"
+                android:contentDescription="@string/收礼"
                 android:onClick="onShowVersion"
                 android:scaleType="centerInside"
                 android:src="@drawable/btn_thing"
@@ -158,7 +158,7 @@
                 tools:ignore="UsingOnClickInXml" />
 
             <ImageButton
-                android:id="@+id/expdata"
+                android:id="@+id/exportData"
                 android:layout_width="33dp"
                 android:layout_height="33dp"
                 android:background="#00FF0000"
@@ -184,7 +184,7 @@
 
 
             <EditText
-                android:id="@+id/mtotal_men"
+                android:id="@+id/m_total_men"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:autofillHints=""
@@ -223,7 +223,7 @@
             tools:context=".MainActivity">
 
             <EditText
-                android:id="@+id/mtotal"
+                android:id="@+id/m_total"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:autofillHints=""
@@ -271,7 +271,7 @@
                 android:layout_height="35dp"
                 android:layout_marginStart="190dp"
                 android:background="#00FF0000"
-                android:contentDescription="@string/returnflag"
+                android:contentDescription="@string/returnFlag"
                 android:onClick="retOnFlag"
                 android:scaleType="centerInside"
                 android:src="@drawable/btn_return"
@@ -305,7 +305,7 @@
         android:background="#00FF0000"
         android:onClick="addAccount"
         android:scaleType="fitXY"
-        android:src="@drawable/tianjia"
+        android:src="@drawable/add"
         tools:ignore="UsingOnClickInXml"
         android:contentDescription="@string/增加记录" />
 

@@ -34,6 +34,7 @@ import android.view.View;
 
 import android.view.ViewOutlineProvider;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -63,7 +64,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String VersionString = " Version: 2025.03.28 ";
+    private static final String VersionString = " Version: 2025.03.29 ";
     int CurrentIndex = -1;
     int m_total_Num = 0;  //显示总收支差额
     //    int m_appStart_reFlag = 1 ; //app start flag: 1 ;   0:started
@@ -225,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void removeUnderLine() {
         simpleSearchView = findViewById(R.id.et_search_title);
-        simpleSearchView.setSubmitButtonEnabled(true);  //控件上添加默认的提交按钮
+        //        simpleSearchView.setSubmitButtonEnabled(true);  //控件上添加默认的提交按钮
         sipSearchImgView = findViewById(R.id.et_search_image);
         //Removing search view underline
         int searchPlateId = simpleSearchView.getContext().getResources().getIdentifier("android:id/search_plate", null, null);
@@ -278,19 +279,21 @@ public class MainActivity extends AppCompatActivity {
             m_isBlue_or_Black = (m_isBlue_or_Black + 1) % 3;
             switch (m_isBlue_or_Black) {//更改查询框线条颜色
                 case 0:
-                    id = getResources().getIdentifier("groundblue", "drawable", "com.example.RQWL001");
+                    id = getResources().getIdentifier("ground_blue", "drawable", getPackageName());
                     break;
                 case 1:
-                    id = getResources().getIdentifier("groundgrey", "drawable", "com.example.RQWL001");
+                    id = getResources().getIdentifier("ground_grey", "drawable", getPackageName());
                     break;
                 case 2:
-                    id = getResources().getIdentifier("groundblack", "drawable", "com.example.RQWL001");
+                    id = getResources().getIdentifier("ground_black", "drawable", getPackageName());
                     break;
             }
             Drawable myDrawable = ResourcesCompat.getDrawable(getResources(), id, null); //getResources().getDrawable(id, null);
             sipSearchImgView.setImageDrawable(myDrawable);
         }
         sortString = sortString.replace(",,", ",");
+        sortString = sortString.replace(" asc", "");
+        sortString = sortString.replace(" desc", "");  //防止重复 desc， asc
         String queryStr = completeSearchView.getText().toString();
 //        if ("".equals(queryStr))
         if (sortString.equals("Money")) sortString = sortString + "*1" ;  //, ,用来保证数字排序正确
@@ -300,6 +303,11 @@ public class MainActivity extends AppCompatActivity {
         else
             initQueryData(queryStr);  //按輸入條件字符，查询后排序后，显示记录
 
+        //Close the input soft keyboard
+        View view1 = getCurrentFocus();
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view1.getWindowToken(),0);
+
     }
 
     private void initView() {
@@ -308,9 +316,9 @@ public class MainActivity extends AppCompatActivity {
         listView = findViewById(R.id.list_view);
         Add = findViewById(R.id.add);
         ReturnFlag = findViewById(R.id.retFlag);
-        ExportData = findViewById(R.id.expdata);
-        Money_total = findViewById(R.id.mtotal);
-        Men_total = findViewById(R.id.mtotal_men);
+        ExportData = findViewById(R.id.exportData);
+        Money_total = findViewById(R.id.m_total);
+        Men_total = findViewById(R.id.m_total_men);
         BtnThings = findViewById(R.id.things);
         BtnContacts = findViewById(R.id.contacts);
 //        return;
@@ -516,17 +524,12 @@ public class MainActivity extends AppCompatActivity {
                 charShow = "" + m_record_Count + "笔"; // 笔";; //人名or事件统计是有效   Page two
         }
         Men_total.setText(charShow); //显示总条目数量
-        if (m_total_Num >= 0) {
-            if (m_total_Num == 0) {
-                Money_total.setText(""); //显示总收支差额
-            } else {
-                charShow = "+" + m_total_Num;
-                Money_total.setText(charShow); //显示总收支差额
-            }
+        if (m_total_Num > 0) {
+            charShow = "+" + m_total_Num;            //            Money_total.setTextColor(Color.RED);
         } else {
-            charShow = "" + m_total_Num;
-            Money_total.setText(charShow); //显示总收支差额
+            charShow = "" + m_total_Num;            //            Money_total.setTextColor(Color.GREEN);
         }
+        Money_total.setText(charShow); //显示总收支差额
 
 
         //绑定适配器
@@ -592,7 +595,7 @@ public class MainActivity extends AppCompatActivity {
             m_record_Count++;  //本次查询总条目，记录条目数
         }
 
-        String charShow = "共" + m_record_Count + "条";
+        String charShow = "" + m_record_Count + "行";
         Men_total.setText(charShow); //显示总条目数量
         //绑定适配器
         listView.setAdapter(new ListAdapter(this, CurrentList));
@@ -659,7 +662,7 @@ public class MainActivity extends AppCompatActivity {
             }
             m_record_Num++;  //单件事 或者 单个人 记录条目数
         }
-        String charShow = "共" + m_record_Num + "笔";
+        String charShow = "" + m_record_Num + "笔";
         Men_total.setText(charShow); //显示总条目数量
         if (m_total_Num >= 0) {
             if (m_total_Num == 0) {
@@ -1150,7 +1153,7 @@ public class MainActivity extends AppCompatActivity {
             if (oldFileName.equals("FinalAccount")) ShowToast(" 备份数据失败！", Color.RED);
 //            return false;
         }
-        if ((recordCount > 0)&&(!iKeepSilence)) ShowToast(" 备份数据成功，共" + recordCount + "条！ ", Color.BLUE);
+        if ((recordCount > 0)&&(!iKeepSilence)) ShowToast(" 成功备份数据" + recordCount + "条！ ", Color.BLUE);
 //        return true;
     }
 
@@ -1240,7 +1243,7 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
                 return;
             }
-            ShowToast(" 共成功导入数据 " + recordCount + " 条！ ", Color.BLUE);
+            ShowToast(" 成功导入数据 " + recordCount + " 条！ ", Color.BLUE);
         }
     }
 

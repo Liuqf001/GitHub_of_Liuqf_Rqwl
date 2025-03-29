@@ -205,8 +205,9 @@ public class Edit_cost extends AppCompatActivity {
 
         final MyCalendarView calendarView = findViewById(R.id.calendarView);
         calendarView.setcurrentselectDate(CurrentDate.substring(0, 10));     //10个字符，日期 ;
-        calendarView.setOnClickListener((View v)->
-                ShowToast("Button was clicked", Color.BLUE)) ;
+        calendarView.setOnClickListener((View v)->{
+                   // ShowToast("Date was clicked", Color.BLUE) ;
+                });
 
         calendarView.setClickDataListener(((int year, int month, int day)-> {
                 String date ;//= String.format(Locale.CHINA, "%04d-%02d-%02d", year, month, day);

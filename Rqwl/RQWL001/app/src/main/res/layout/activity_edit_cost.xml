@@ -15,7 +15,7 @@
         android:layout_height="40dp"
         android:layout_gravity="top|start"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="40dp"
         android:background="@drawable/bg_rectangle"
         android:onClick="InOut"
@@ -37,7 +37,7 @@
             android:ems="10"
             android:enabled="false"
             android:inputType="none"
-            android:text="@string/xingming"
+            android:text="@string/姓名"
             android:textColor="@android:color/black"
             android:autofillHints=""
             tools:ignore="LabelFor" />
@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/editTextTextPersonName"
             android:completionThreshold="0"
-            android:hint="@string/xingming" />
+            android:hint="@string/姓名" />
 
     </RelativeLayout>
 
@@ -93,7 +93,7 @@
             android:ems="10"
             android:enabled="false"
             android:inputType="textPersonName"
-            android:text="@string/lijin"
+            android:text="@string/礼金"
             android:textColor="@android:color/black"
             android:autofillHints="" />
 
@@ -103,7 +103,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_toEndOf="@id/editTextTextCash"
-            android:hint="@string/lijin"
+            android:hint="@string/礼金"
             android:inputType="number|numberDecimal"
             android:textColor="#ffbd27"
             android:autofillHints="" />
@@ -172,11 +172,11 @@
     <RelativeLayout
         android:id="@+id/relativeLayout5"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="40dp">
 
         <Switch
             android:id="@+id/switch_batch"
-            android:layout_width="wrap_content"
+            android:layout_width="120dp"
             android:layout_height="40dp"
             android:layout_marginStart="30dp"
             android:layout_marginTop="0dp"
@@ -197,7 +197,7 @@
             android:layout_marginStart="40dp"
             android:layout_marginTop="0dp"
             android:layout_marginEnd="5dp"
-            android:background="@drawable/bg_rectangleok"
+            android:background="@drawable/bg_rectangle_ok"
             android:onClick="okButton"
             android:text="@string/确认"
             android:textColor="#333333"
@@ -208,23 +208,23 @@
     <RelativeLayout
         android:id="@+id/relativeLayout6"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="350dp">
 
         <com.nanchen.calendarview.MyCalendarView
             android:id="@+id/calendarView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="top|start"
-            android:layout_marginTop="0dp">
-
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
         </com.nanchen.calendarview.MyCalendarView>
     </RelativeLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/relativeLayout7"
         android:layout_width="match_parent"
-        android:layout_height="35dp">
+        android:layout_height="40dp">
 
         <ImageButton
             android:id="@+id/del"
@@ -232,13 +232,13 @@
             android:layout_height="35dp"
             android:layout_marginStart="10dp"
             android:background="#00FF0000"
+            android:contentDescription="@string/delete"
             android:onClick="delAccount"
             android:scaleType="fitEnd"
             android:src="@drawable/btn_delete"
             android:visibility="visible"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="@string/delete"
             tools:ignore="UsingOnClickInXml" />
 
         <ImageButton
@@ -247,13 +247,13 @@
             android:layout_height="35dp"
             android:layout_marginEnd="10dp"
             android:background="#00FF0000"
+            android:contentDescription="@string/returnFlag"
             android:onClick="retOnFlag"
             android:scaleType="centerInside"
             android:src="@drawable/btn_return"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:contentDescription="@string/returnflag"
             tools:ignore="UsingOnClickInXml" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

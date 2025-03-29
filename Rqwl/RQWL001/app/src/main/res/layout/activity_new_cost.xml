@@ -20,7 +20,7 @@
         android:ellipsize="marquee"
         android:onClick="InOut"
         android:shadowColor="@android:color/holo_green_light"
-        android:text="@string/shouli"
+        android:text="@string/收礼"
         android:textSize="20sp"
         tools:ignore="UsingOnClickInXml" />
 
@@ -37,7 +37,7 @@
             android:layout_gravity="start"
             android:layout_marginStart="10dp"
             android:completionThreshold="0"
-            android:hint="@string/xingming"
+            android:hint="@string/姓名"
             android:textSize="16sp"
             app:layout_constraintEnd_toStartOf="@+id/et_cost_money"
             app:layout_constraintHorizontal_bias="0.5"
@@ -51,7 +51,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:autofillHints=""
-            android:hint="@string/lijin"
+            android:hint="@string/礼金"
             android:inputType="number|numberDecimal"
             android:textColor="#ffbd27"
             android:textSize="16sp"
@@ -309,7 +309,7 @@
                 android:layout_width="100dp"
                 android:layout_height="40dp"
                 android:layout_gravity="top|end"
-                android:background="@drawable/bg_rectangleok"
+                android:background="@drawable/bg_rectangle_ok"
                 android:onClick="okButton"
                 android:text="@string/确认"
                 android:textColor="#333333"
@@ -365,7 +365,7 @@
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:contentDescription="@string/returnflag"
+            android:contentDescription="@string/returnFlag"
             tools:ignore="UsingOnClickInXml" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
