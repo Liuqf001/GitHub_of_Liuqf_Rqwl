@@ -119,26 +119,32 @@
             android:id="@+id/editTextTextDate"
             android:layout_width="56dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
             android:layout_marginStart="10dp"
             android:autofillHints=""
             android:ems="10"
             android:enabled="false"
-            android:inputType="number|date"
+            android:focusableInTouchMode="false"
+            android:inputType="text|date"
             android:text="@string/日期"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/dp_cost_date"
             android:layout_width="360dp"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/editTextTextDate"
-            android:enabled="false"
+            android:editable="false"
+            android:focusable="false"
             android:hint="@string/日期"
+            android:inputType="date"
+            android:onClick="onDateClick"
             android:textColor="#ffbd27"
+            app:layout_constraintStart_toEndOf="@id/editTextTextDate"
+            app:layout_constraintTop_toTopOf="parent"
             android:autofillHints=""
-            android:inputType="date" />
-
+            tools:ignore="Deprecated" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -208,7 +214,8 @@
     <RelativeLayout
         android:id="@+id/relativeLayout6"
         android:layout_width="match_parent"
-        android:layout_height="350dp">
+        android:layout_height="350dp"
+        android:layout_weight="1">
 
         <com.nanchen.calendarview.MyCalendarView
             android:id="@+id/calendarView"
@@ -217,8 +224,7 @@
             android:layout_gravity="top|start"
             android:layout_marginTop="10dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-        </com.nanchen.calendarview.MyCalendarView>
+            app:layout_constraintTop_toTopOf="parent"></com.nanchen.calendarview.MyCalendarView>
     </RelativeLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -25,6 +25,45 @@
         tools:ignore="UsingOnClickInXml" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/relativeLayout0"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <EditText
+            android:id="@+id/editDay"
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:autofillHints=""
+            android:ems="10"
+            android:enabled="false"
+            android:focusableInTouchMode="false"
+            android:inputType="text|date"
+            android:text="@string/日期"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="LabelFor" />
+
+        <EditText
+            android:id="@+id/dp_cost_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autofillHints=""
+            android:editable="false"
+            android:focusable="false"
+            android:hint="@string/日期"
+            android:inputType="date"
+            android:onClick="onDateClick"
+            android:textColor="#ffbd27"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@+id/editDay"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="Deprecated" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/relativeLayout1"
         android:layout_width="match_parent"
         android:layout_height="40dp"
@@ -328,11 +367,12 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/relativeLayout7"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="0dp"
         android:layout_gravity="top|start"
+        android:layout_weight="1"
         app:layout_constraintBottom_toTopOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintTop_toBottomOf="@+id/button"
+        app:layout_constraintTop_toBottomOf="@id/relativeLayout5"
         tools:layout_constraintBottom_toTopOf="@id/relativeLayout7">
 
         <com.nanchen.calendarview.MyCalendarView
@@ -350,8 +390,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/relativeLayout8"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        >
+        android:layout_height="0dp"
+        android:visibility="invisible">
 
         <ImageButton
             android:id="@+id/retFlag2"
@@ -359,13 +399,13 @@
             android:layout_height="35dp"
             android:layout_marginEnd="10dp"
             android:background="#00FF0000"
+            android:contentDescription="@string/returnFlag"
             android:onClick="retOnFlag"
             android:scaleType="centerInside"
             android:src="@drawable/btn_return"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:contentDescription="@string/returnFlag"
             tools:ignore="UsingOnClickInXml" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

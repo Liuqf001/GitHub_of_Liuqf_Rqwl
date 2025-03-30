@@ -26,10 +26,13 @@ import com.nanchen.calendarview.MyCalendarView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 //import java.util.Locale;
 
 public class New_cost extends AppCompatActivity {
     private DBHelper helper;
+    private MyCalendarView dp_date_view;
+    private EditText dp_cost_date;
     private EditText[] et_cost_title;
     private EditText et_cost_remark;
     private EditText[] et_cost_money;
@@ -57,15 +60,27 @@ public class New_cost extends AppCompatActivity {
         findViews();  //准备姓名提示
         initView();
 
-        MyCalendarView calendarView =  findViewById(R.id.calendarView);
-        calendarView.setClickDataListener((int year, int month, int day)-> {
+        String dateShow = dp_date_view.getcurrentselectDate()+" ";
+        dateShow = dateShow + dp_date_view.getcurrentsellunarDate();
+        dp_cost_date.setText(dateShow);  //显示日期,显示公历 和 农历
+        dp_date_view.setClickDataListener(((int year, int month, int day)-> {
+            String date ;//= String.format(Locale.CHINA, "%04d-%02d-%02d", year, month, day);
+            date = String.format(Locale.CHINA, "%04d-%02d-%02d ", year, month, day);
+            date = date + dp_date_view.getcurrentsellunarDate();
+            dp_cost_date.setText(date);  //修改日期,显示公历 和 农历
+            dp_date_view.setVisibility(View.INVISIBLE);
+//                dialog.cancel();
+        }));
+        dp_date_view.setVisibility(View.INVISIBLE);
+
+//        MyCalendarView calendarView =  findViewById(R.id.calendarView);
+//        calendarView.setClickDataListener((int year, int month, int day)-> {
 //                String date = String.format(Locale.CHINA, "%04d-%02d-%02d", year, month, day);
 //                Toast toast = Toast.makeText(this, date, Toast.LENGTH_SHORT);
 //                toast.setGravity(Gravity.CENTER, 0, 0);
 //                toast.show();
-
 //            current_select_Date = String.format(Locale.CHINA, "%04d-%02d-%02d", year, month, day);  //2025.03.28
-        });
+//        });
     }
 
 
@@ -166,8 +181,9 @@ public class New_cost extends AppCompatActivity {
                  findViewById(R.id.et_cost_memo5)
         };
 
+        dp_date_view = findViewById(R.id.calendarView);
         et_cost_remark = findViewById(R.id.et_cost_remark);
-//        dp_cost_date = findViewById(R.id.dp_cost_date);
+        dp_cost_date = findViewById(R.id.dp_cost_date);
         buttonInOut = findViewById(R.id.buttonInOut);
         Intent intent = getIntent();
         String dataName = intent.getStringExtra("CurrentName");
@@ -205,6 +221,11 @@ public class New_cost extends AppCompatActivity {
             for (int i = 0; i < 5; i++)
                 et_cost_money[i].setTextColor(Color.RED);
         }
+    }
+
+
+    public void onDateClick(View view) {
+        dp_date_view.setVisibility(View.VISIBLE);
     }
 
     public void okButton(View view) {

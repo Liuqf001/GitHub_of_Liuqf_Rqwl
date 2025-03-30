@@ -64,7 +64,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String VersionString = " Version: 2025.03.29 ";
+    private static final String VersionString = " Version: 2025.03.30 ";
     int CurrentIndex = -1;
     int m_total_Num = 0;  //显示总收支差额
     //    int m_appStart_reFlag = 1 ; //app start flag: 1 ;   0:started
@@ -153,8 +153,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                             CurPageNoFlag = 2;
                             m_total_reFlag = -1;
-                            // 增加新的记录数据 ，备份数据
-                            CurWorkModeFlag = 1; // 按照联系人显示模式，显示结果 ，在第二页显示
+                            CurWorkModeFlag = 1; // 增加新的记录数据 ， // 按照联系人显示模式，显示结果 ，在第二页显示
                             initData(CurrentName); // 修改/添加/修改记录后 重新显示
                             if ( resultCode==RESULT_OK ) // 添加数据记录成功
                                 ExportCsv("FinalAccountAdd", true); // 增加新的记录数据后，自动导出一次记录 to  FinalAccountAdd
@@ -179,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                             CurPageNoFlag = 2;
                             m_total_reFlag = -1;
-                            // 删除指定行记录数据 ，备份数据
+                            CurWorkModeFlag = 1; // 编辑指定行记录数据  // 按照联系人显示模式，显示结果 ，在第二页显示
                             initData(CurrentName); // 修改/添加/修改记录后 重新显示
                             if ( resultCode==RESULT_OK ) // 修改数据记录成功  1，2，202
                                 ExportCsv("FinalAccountDel", true); // 增加新的记录数据后，自动导出一次记录 to  FinalAccountAdd

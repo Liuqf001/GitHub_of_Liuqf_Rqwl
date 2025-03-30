@@ -43,6 +43,7 @@ public class Edit_cost extends AppCompatActivity {
     private EditText et_cost_remark;
     private EditText et_cost_memo;
     private EditText dp_cost_date;
+    private MyCalendarView dp_date_view;
     private Button buttonInOut;
     int CurrentId;   //页面初始化时，传入六个的参数
     String CurrentName;
@@ -173,6 +174,7 @@ public class Edit_cost extends AppCompatActivity {
         dp_cost_date = findViewById(R.id.dp_cost_date);
         buttonInOut = findViewById(R.id.buttonInOut);
         et_cost_memo = findViewById(R.id.et_cost_memo);
+        dp_date_view = findViewById(R.id.calendarView);
         Intent intent = getIntent();
 
         CurrentId = intent.getIntExtra("CurrentId", -1);
@@ -203,19 +205,22 @@ public class Edit_cost extends AppCompatActivity {
             et_cost_money.setTextColor(Color.GREEN);
         }
 
-        final MyCalendarView calendarView = findViewById(R.id.calendarView);
-        calendarView.setcurrentselectDate(CurrentDate.substring(0, 10));     //10个字符，日期 ;
-        calendarView.setOnClickListener((View v)->{
+//        final MyCalendarView calendarView = findViewById(R.id.calendarView);
+        dp_date_view.setcurrentselectDate(CurrentDate.substring(0, 10));     //10个字符，日期 ;
+        dp_date_view.setOnClickListener((View v)->{
                    // ShowToast("Date was clicked", Color.BLUE) ;
                 });
 
-        calendarView.setClickDataListener(((int year, int month, int day)-> {
+        dp_date_view.setClickDataListener(((int year, int month, int day)-> {
                 String date ;//= String.format(Locale.CHINA, "%04d-%02d-%02d", year, month, day);
                 date = String.format(Locale.CHINA, "%04d-%02d-%02d ", year, month, day);
-                date = date + calendarView.getcurrentsellunarDate();
+                date = date + dp_date_view.getcurrentsellunarDate();
                 dp_cost_date.setText(date);  //修改日期,显示公历 和 农历
+            dp_date_view.setVisibility(View.INVISIBLE);
+
 //                dialog.cancel();
             }));
+        dp_date_view.setVisibility(View.INVISIBLE);
 
     }
 
@@ -264,6 +269,10 @@ public class Edit_cost extends AppCompatActivity {
                 break;
         }
         db.close();
+    }
+
+    public void onDateClick(View view) {
+        dp_date_view.setVisibility(View.VISIBLE);
     }
 
     public void okButton(View view) {
