@@ -68,8 +68,7 @@ public class New_cost extends AppCompatActivity {
             date = String.format(Locale.CHINA, "%04d-%02d-%02d ", year, month, day);
             date = date + dp_date_view.getcurrentsellunarDate();
             dp_cost_date.setText(date);  //修改日期,显示公历 和 农历
-            dp_date_view.setVisibility(View.INVISIBLE);
-//                dialog.cancel();
+            //                dialog.cancel();
         }));
         dp_date_view.setVisibility(View.INVISIBLE);
 
@@ -225,7 +224,10 @@ public class New_cost extends AppCompatActivity {
 
 
     public void onDateClick(View view) {
-        dp_date_view.setVisibility(View.VISIBLE);
+        if(dp_date_view.getVisibility()==View.INVISIBLE)
+            dp_date_view.setVisibility(View.VISIBLE);
+        else
+            dp_date_view.setVisibility(View.INVISIBLE);
     }
 
     public void okButton(View view) {

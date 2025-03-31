@@ -64,7 +64,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String VersionString = " Version: 2025.03.30 ";
+    private static final String VersionString = " Version: 2025.03.31 ";
     int CurrentIndex = -1;
     int m_total_Num = 0;  //显示总收支差额
     //    int m_appStart_reFlag = 1 ; //app start flag: 1 ;   0:started
@@ -614,9 +614,9 @@ public class MainActivity extends AppCompatActivity {
 
         //        if (CurPageNoFlag == 1) //first page  一次查询，查询 姓名,事件中包含改字符串的所有记录
         //        {
-        sqlString = sqlString + "where Title like ? or Remark like ? order by " + sortString;
+        sqlString = sqlString + "where Title like ? or Remark like ? or Date like ? or Memo like ? order by " + sortString;
         //        try{
-        cursor = db.rawQuery(sqlString, new String[]{"%" + selectArgName + "%", "%" + selectArgName + "%"});
+        cursor = db.rawQuery(sqlString, new String[]{"%" + selectArgName + "%", "%" + selectArgName + "%", "%" + selectArgName + "%", "%" + selectArgName + "%"});
         //        }
         //        catch (SQLException e){
         //            ShowToast(e.toString(), Color.RED);
@@ -642,6 +642,7 @@ public class MainActivity extends AppCompatActivity {
             listTemp.setTitle(cursor.getString(cursor.getColumnIndex("Title")));
             listTemp.setRemark(cursor.getString(cursor.getColumnIndex("Remark")));
             listTemp.setDate(cursor.getString(cursor.getColumnIndex("Date")));
+            listTemp.setMemo(cursor.getString(cursor.getColumnIndex("Memo")));
             m_Tmp_Num = cursor.getInt(cursor.getColumnIndex("Money"));
             m_Tmp_char = cursor.getString(cursor.getColumnIndex("Money"));
             if (m_Tmp_Num > 0)
@@ -935,7 +936,7 @@ public class MainActivity extends AppCompatActivity {
                 m_total_reFlag = 0;
                 CurrentName = "";
                 CurrentRemark = "";
-                simpleSearchView.setQueryHint("输入姓名或事由");
+                simpleSearchView.setQueryHint("搜索");
                 if (view == null)//后台调用
                     CurrentName = completeSearchView.getText().toString();
                 initData(CurrentName);  //联系人模式，第一页 ，显示记录
@@ -978,21 +979,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onContacts(View view) {
-        if (CurWorkModeFlag == 2) CurWorkModeFlag = 1;   //1: 按联系人显示    2：按事由事件显示  , 模式切换
-        else CurWorkModeFlag = 2;
-
         m_Thing_Char = 2;
         CurPageNoFlag = 1;    // first page
         m_total_reFlag = 0;
         CurrentName = "";
         CurrentRemark = "";
-        simpleSearchView.setQueryHint("输入姓名或事由");
-        if (view == null) {
-            if (CurWorkModeFlag == 2)
-                CurrentRemark = completeSearchView.getText().toString();//后台调用
-            else CurrentName = completeSearchView.getText().toString();
+        simpleSearchView.setQuery("", false);
+        //        if (view == null)
+        //        {
+        //            if (CurWorkModeFlag == 3)
+        //                CurrentRemark = completeSearchView.getText().toString();//后台调用,, 输入提示之用
+        //            else CurrentName = completeSearchView.getText().toString();
+        //        }
+        if (CurWorkModeFlag == 3) {
+            initQueryData(CurrentName);   //全部显示模式，第一页 ，显示记录
+        } else {
+            initData(CurrentName);  //1 联系人模式，第一页 ，显示记录  //2 事由模式，第一页 ，显示记录
         }
-        initData(CurrentName);   //事由模式，第一页 ，显示记录
+        CurWorkModeFlag = (CurWorkModeFlag%3)+1; // 1,2,3 循环
 
     }
 

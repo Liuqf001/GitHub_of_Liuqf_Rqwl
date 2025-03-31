@@ -390,8 +390,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/relativeLayout8"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:visibility="invisible">
+        android:layout_height="40dp"
+        android:visibility="visible">
 
         <ImageButton
             android:id="@+id/retFlag2"

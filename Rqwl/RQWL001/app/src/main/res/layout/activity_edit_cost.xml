@@ -214,7 +214,7 @@
     <RelativeLayout
         android:id="@+id/relativeLayout6"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="0dp"
         android:layout_weight="1">
 
         <com.nanchen.calendarview.MyCalendarView
@@ -224,7 +224,7 @@
             android:layout_gravity="top|start"
             android:layout_marginTop="10dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"></com.nanchen.calendarview.MyCalendarView>
+            app:layout_constraintTop_toTopOf="parent" />
     </RelativeLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
