@@ -64,7 +64,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String VersionString = " Version: 2025.03.31 ";
+    private static final String VersionString = " Version: 2025.04.01 ";
     int CurrentIndex = -1;
     int m_total_Num = 0;  //显示总收支差额
     //    int m_appStart_reFlag = 1 ; //app start flag: 1 ;   0:started
@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        findViews();
+        findViews(); //重新组织提示信息
         gestureDetector = new GestureDetector(this, new GestureListener());  //2024.06.22
 
 
@@ -264,9 +264,9 @@ public class MainActivity extends AppCompatActivity {
         } else if (i == R.id.tv_remark3) {
             sortString = "Remark";
             if (CurPageNoFlag == 1) {  //first page     //                if (m_Thing_Char == 5) m_Thing_Char = 2;
-                if (CurWorkModeFlag == 1) m_Thing_Char = 5;  //person
+                if (CurWorkModeFlag == 2) m_Thing_Char = 2;  //thing
                 else
-                    m_Thing_Char = 2;                       // thing   //                else m_Thing_Char = 5; //2.4.6 ;
+                    m_Thing_Char = 5;                       // person   //                else m_Thing_Char = 5; //2.4.6 ;
             }
             findViews();  //重新组织提示信息
         } else if (i == R.id.tv_date3) {
@@ -298,9 +298,9 @@ public class MainActivity extends AppCompatActivity {
         if (sortString.equals("Money")) sortString = sortString + "*1" ;  //, ,用来保证数字排序正确
         sortString = sortString +  isAsc_or_Desc;
         if (CurWorkModeFlag <= 2)
-            initSortData(sortString);  //按工作模式排序后，显示记录
+            initSortData(sortString);  //person or thing  mode ,按工作模式排序后，显示记录
         else
-            initQueryData(queryStr);  //按輸入條件字符，查询后排序后，显示记录
+            initQueryData(queryStr);  //query mode , 按輸入條件字符，查询后排序后，显示记录
 
         //Close the input soft keyboard
         View view1 = getCurrentFocus();
@@ -882,6 +882,7 @@ public class MainActivity extends AppCompatActivity {
         dialog02.show();
     }
 
+    //重新组织提示信息
     private void findViews() {
         List<String> curName;   //光标提示字符串
         curName = new ArrayList<>();
@@ -991,13 +992,12 @@ public class MainActivity extends AppCompatActivity {
         //                CurrentRemark = completeSearchView.getText().toString();//后台调用,, 输入提示之用
         //            else CurrentName = completeSearchView.getText().toString();
         //        }
+        CurWorkModeFlag = (CurWorkModeFlag%3)+1; // 1,2,3 循环
         if (CurWorkModeFlag == 3) {
             initQueryData(CurrentName);   //全部显示模式，第一页 ，显示记录
         } else {
             initData(CurrentName);  //1 联系人模式，第一页 ，显示记录  //2 事由模式，第一页 ，显示记录
         }
-        CurWorkModeFlag = (CurWorkModeFlag%3)+1; // 1,2,3 循环
-
     }
 
     public void retOnFlag(View view) {//跳转
