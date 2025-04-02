@@ -34,6 +34,7 @@
    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
    }
 
-加速器： Watt_Steam++\_v3.0.0-rc.15_win_x64.exe
+6. Github 登录方法
+   加速器： Watt_Steam++\_v3.0.0-rc.15_win_x64.exe
 
 [deprecation] Handler�е�Handler()
