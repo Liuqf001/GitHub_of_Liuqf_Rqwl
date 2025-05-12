@@ -1247,6 +1247,7 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
             ShowToast(" 成功导入数据 " + recordCount + " 条！ ", Color.BLUE);
+            findViews();
         }
     }
 
